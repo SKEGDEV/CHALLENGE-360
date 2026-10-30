@@ -2,5 +2,6 @@ export * from './IAuthService';
 export * from './IClientService';
 export * from './IOperatorService';
 export * from './IAdminService';
+export * from './ICommonService';
 export * from './ISecretsManagerService';
 export * from './IStorageService';

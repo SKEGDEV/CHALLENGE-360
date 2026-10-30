@@ -16,6 +16,7 @@ export function setupSwagger(app: Express, _settings: ISettings): void {
         { name: 'Client' },
         { name: 'Operator' },
         { name: 'Admin' },
+        { name: 'Common' },
       ],
       components: {
         securitySchemes: {

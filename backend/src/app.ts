@@ -8,6 +8,7 @@ import {
   ClientController,
   OperatorController,
   AdminController,
+  CommonController,
 } from '@Presentation';
 
 export interface Controllers {
@@ -15,6 +16,7 @@ export interface Controllers {
   clientController: ClientController;
   operatorController: OperatorController;
   adminController: AdminController;
+  commonController: CommonController;
 }
 
 export function createApp(settings: ISettings, controllers: Controllers): Express {
@@ -29,6 +31,7 @@ export function createApp(settings: ISettings, controllers: Controllers): Expres
   app.use('/api/client', controllers.clientController.router);
   app.use('/api/operator', controllers.operatorController.router);
   app.use('/api/admin', controllers.adminController.router);
+  app.use('/api/common', controllers.commonController.router);
 
   app.use(errorHandlerMiddleware);
 
