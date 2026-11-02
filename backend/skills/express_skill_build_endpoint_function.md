@@ -68,6 +68,7 @@ erDiagram
         int IDProductType PK
         varchar(100) ProductTypeName
         varchar(400) ProductTypeDescription
+        bit rowStatus
     }
 
     Product {
@@ -141,6 +142,7 @@ erDiagram
         decimal(18_2) CuponValue
         Datetime CuponExpiration
         bit isPerCategory
+        bit rowStatus
         int CuponUserCreatedBy FK
         Datetime CuponUserCreatedAt
         int CuponUserUpdatedBy FK
@@ -161,6 +163,7 @@ erDiagram
     Invoice {
         int IDInvoice PK
         int IDUser FK
+        varchar(900) InvoiceNumber
         varchar(300) AddressLine1
         varchar(300) AddressLine2
         Datetime InvoiceDate

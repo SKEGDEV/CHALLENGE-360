@@ -25,11 +25,6 @@ export class AuthService implements IAuthService {
     data: CreateAccountRequest,
     rolePublicCode: string,
   ): Promise<StandardResponse<CreateAccountResponseData>> {
-    const validationErrors = this.authHelper.validateCreateAccountRequest(data);
-    if (validationErrors.length > 0) {
-      throw new CustomException(400, 'VAL0001', validationErrors.join('|'));
-    }
-
     const userPasswordHash = await this.authHelper.hashPassword(data.userPassword);
 
     const created = await this.authRepository
@@ -56,11 +51,6 @@ export class AuthService implements IAuthService {
   }
 
   async login(data: LoginRequest): Promise<StandardResponse<LoginResponseData>> {
-    const validationErrors = this.authHelper.validateLoginRequest(data);
-    if (validationErrors.length > 0) {
-      throw new CustomException(400, 'VAL0001', validationErrors.join('|'));
-    }
-
     const user = await this.authRepository.getUserByEmail(data.userEmail);
     if (!user) {
       throw new CustomException(401, 'AUTH0001', ErrorDictionary.AUTH0001);

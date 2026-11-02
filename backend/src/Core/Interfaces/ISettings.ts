@@ -14,4 +14,5 @@ export interface ISettings {
   s3BucketName: string;
   secretDbConnectionStringName: string;
   secretS3CredentialsName: string;
+  preSignedUrlExpirationSeconds: number;
 }

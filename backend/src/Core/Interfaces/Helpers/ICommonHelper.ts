@@ -6,7 +6,6 @@ export interface ICommonHelper {
     data: T | null,
     message: string,
     errorCode?: string | null,
-    errorMessage?: string | null,
+    errorMessage?: string | Record<string, string> | null,
   ): StandardResponse<T>;
-  isValidEmail(email: string): boolean;
 }

@@ -5,6 +5,10 @@ export interface AuthenticatedRequest extends Request {
   auth?: { idUser: number; roles: string[] };
 }
 
+export interface AuthenticatedTypedRequest<P = any, ReqBody = unknown> extends Request<P, unknown, ReqBody> {
+  auth?: { idUser: number; roles: string[] };
+}
+
 function extractBearerToken(req: Request): string | undefined {
   const header = req.headers.authorization;
   if (!header?.startsWith('Bearer ')) {

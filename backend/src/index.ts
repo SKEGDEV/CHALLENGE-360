@@ -59,10 +59,14 @@ async function bootstrap(): Promise<void> {
   const pool = await createPool(dbConnectionString);
   const storageService = await resolveStorageService(settings, secretsManager);
 
-  const controllers = buildControllers(pool, settings);
+  const controllers = buildControllers(pool, settings, storageService);
   const app = createApp(settings, controllers);
-  app.locals.storageService = storageService;
-  app.locals.s3BucketName = settings.s3BucketName;
+
+  if (pool) {
+    await controllers.commonController.warmCatalogCache().catch((error: unknown) => {
+      console.warn('Could not warm the catalog cache.', error);
+    });
+  }
 
   app.listen(settings.port, () => {
     console.log(`shopCart API listening on port ${settings.port}`);

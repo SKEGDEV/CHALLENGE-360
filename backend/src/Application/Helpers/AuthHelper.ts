@@ -1,61 +1,12 @@
 import { randomBytes } from 'crypto';
 import * as argon2 from 'argon2';
 import jwt from 'jsonwebtoken';
-import {
-  AccessTokenValidationResult,
-  CreateAccountRequest,
-  GeneratedTokens,
-  IAuthHelper,
-  ICommonHelper,
-  ISettings,
-  JwtPayload,
-  LoginRequest,
-  RotatedTokens,
-} from '@Core';
+import { AccessTokenValidationResult, GeneratedTokens, IAuthHelper, ISettings, JwtPayload, RotatedTokens } from '@Core';
 
-const MIN_PASSWORD_LENGTH = 8;
 const REFRESH_TOKEN_BYTES = 48;
 
 export class AuthHelper implements IAuthHelper {
-  constructor(
-    private readonly commonHelper: ICommonHelper,
-    private readonly settings: ISettings,
-  ) {}
-
-  validateCreateAccountRequest(data: CreateAccountRequest): string[] {
-    const errors: string[] = [];
-
-    if (!data?.userFirstName?.trim()) {
-      errors.push('El nombre es requerido');
-    }
-    if (!data?.userLastName?.trim()) {
-      errors.push('El apellido es requerido');
-    }
-    if (!data?.userEmail || !this.commonHelper.isValidEmail(data.userEmail)) {
-      errors.push('El correo electronico no tiene un formato valido');
-    }
-    if (!data?.userPassword || data.userPassword.length < MIN_PASSWORD_LENGTH) {
-      errors.push(`La contrasenia debe tener al menos ${MIN_PASSWORD_LENGTH} caracteres`);
-    }
-    if (!data?.userBirthday || Number.isNaN(Date.parse(data.userBirthday))) {
-      errors.push('La fecha de nacimiento no es valida');
-    }
-
-    return errors;
-  }
-
-  validateLoginRequest(data: LoginRequest): string[] {
-    const errors: string[] = [];
-
-    if (!data?.userEmail || !this.commonHelper.isValidEmail(data.userEmail)) {
-      errors.push('El correo electronico no tiene un formato valido');
-    }
-    if (!data?.userPassword) {
-      errors.push('La contrasenia es requerida');
-    }
-
-    return errors;
-  }
+  constructor(private readonly settings: ISettings) {}
 
   async hashPassword(plainPassword: string): Promise<string> {
     return argon2.hash(plainPassword, { type: argon2.argon2id });

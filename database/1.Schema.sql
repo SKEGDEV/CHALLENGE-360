@@ -78,7 +78,8 @@ CREATE TABLE RoleResource(
 CREATE TABLE CatProductType(
   IDProductType int primary key identity(1,1) not null,
   ProductTypeName varchar(100) not null,
-  ProductTypeDescription varchar(400) not null
+  ProductTypeDescription varchar(400) not null,
+  rowStatus bit not null,
 );
 
 CREATE TABLE Product(
@@ -152,6 +153,7 @@ CREATE TABLE Cupon(
   CuponValue decimal(18,2) not null,
   CuponExpiration Datetime not null,
   isPerCategory bit not null,
+  rowStatus bit not null,
   CuponUserCreatedBy int not null,
   CuponUserCreatedAt Datetime not null,
   CuponUserUpdatedBy int NULL,
@@ -174,6 +176,7 @@ CREATE TABLE CatReverseReason(
 CREATE TABLE Invoice(
   IDInvoice int primary key identity(1,1) not null,
   IDUser int not null,
+  InvoiceNumber varchar(900) not null,
   AddressLine1 varchar(300) not null,
   AddressLine2 varchar(300),
   InvoiceDate Datetime not null,
@@ -292,15 +295,17 @@ VALUES
     ('COMPONENT', 'Componente en especifico de una misma vista pero distionto role'),
     ('ENDPOINT', 'Endpoint al cual un usuario tiene acceso');
 
-INSERT INTO CatProductType (ProductTypeName, ProductTypeDescription) 
-VALUES 
-    ('Ropa adultos', 'Ropa especial para adultos segun moda actual'),
-    ('Ropa niños', 'Ropa especial para niños segun moda actual'),
-    ('Zapatos', 'Variedad de zapatos pueden ser deportivos, casuales, etc'),
-    ('Accesorios', 'Variedad de accesorios de moda'); 
+INSERT INTO CatProductType (ProductTypeName, ProductTypeDescription, rowStatus)
+VALUES
+    ('Ropa adultos', 'Ropa especial para adultos segun moda actual', 1),
+    ('Ropa niños', 'Ropa especial para niños segun moda actual', 1),
+    ('Zapatos', 'Variedad de zapatos pueden ser deportivos, casuales, etc', 1),
+    ('Accesorios', 'Variedad de accesorios de moda', 1); 
 
 INSERT INTO CatShippmentStatus (ShippmentStatusName, ShipmentStatusDescription) 
 VALUES 
+    ('En pre orden', 'Se esta en pre orden de modo que solo se descuentan la cantidad de productos para que otro usuario no los tome antes que la factura este en estado a la espera de guia'),
+    ('No transicionada', 'La factura paso mucho tiempo sin transicionar a la espera de guia, por lo tanto cuenta como eliminada y se restauran las cantidades a la tabla de productos'),
     ('A la espera de guia', 'Se esta a la espera que un operador genere la guia para ser enviado'),
     ('Entregado a servicio delivery', 'Se entrego el envio al servicio de delivery seleccionado'),
     ('Entregado al cliente final', 'El paquete cumplio su ciclo logistico y se encuentra entregado al cliente final'),

@@ -1,6 +1,13 @@
 import { Request, Response, Router } from 'express';
 import { CreateAccountRequest, CreateAccountWithRoleRequest, IAuthService, LoginRequest } from '@Core';
-import { buildValidateRoleMiddleware, buildValidateSessionMiddleware } from '@Application';
+import {
+  buildValidateRoleMiddleware,
+  buildValidateSessionMiddleware,
+  buildValidationMiddleware,
+  validateCreateAccountRequest,
+  validateCreateAccountWithRoleRequest,
+  validateLoginRequest,
+} from '@Application';
 
 const PUBLIC_ROLE_CODE = 'RCPU';
 
@@ -15,6 +22,9 @@ export class AuthController {
   private registerRoutes(): void {
     const validateSession = buildValidateSessionMiddleware(this.authService);
     const validateRole = buildValidateRoleMiddleware(this.authService);
+    const validateCreateAccount = buildValidationMiddleware(validateCreateAccountRequest);
+    const validateCreateAccountWithRole = buildValidationMiddleware(validateCreateAccountWithRoleRequest);
+    const validateLogin = buildValidationMiddleware(validateLoginRequest);
 
     /**
      * @openapi
@@ -41,6 +51,7 @@ export class AuthController {
      */
     this.router.post(
       '/account',
+      validateCreateAccount,
       async (req: Request<unknown, unknown, CreateAccountRequest>, res: Response) => {
         const response = await this.authService.createAccount(req.body, PUBLIC_ROLE_CODE);
         res.status(200).json(response);
@@ -77,6 +88,7 @@ export class AuthController {
       '/account/privado',
       validateSession,
       validateRole,
+      validateCreateAccountWithRole,
       async (req: Request<unknown, unknown, CreateAccountWithRoleRequest>, res: Response) => {
         const { rolePublicCode, ...accountData } = req.body;
         const response = await this.authService.createAccount(accountData, rolePublicCode);
@@ -106,6 +118,7 @@ export class AuthController {
      */
     this.router.post(
       '/login',
+      validateLogin,
       async (req: Request<unknown, unknown, LoginRequest>, res: Response) => {
         const response = await this.authService.login(req.body);
         res.status(200).json(response);

@@ -1,4 +1,4 @@
-import { CreateAccountRequest, JwtPayload, LoginRequest } from '../../DTOs/Auth';
+import { JwtPayload } from '../../DTOs/Auth';
 
 export interface GeneratedTokens {
   accessToken: string;
@@ -18,8 +18,6 @@ export interface AccessTokenValidationResult {
 }
 
 export interface IAuthHelper {
-  validateCreateAccountRequest(data: CreateAccountRequest): string[];
-  validateLoginRequest(data: LoginRequest): string[];
   hashPassword(plainPassword: string): Promise<string>;
   verifyPassword(plainPassword: string, passwordHash: string): Promise<boolean>;
   generateTokens(idUser: number, roles: string[]): GeneratedTokens;

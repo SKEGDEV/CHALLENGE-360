@@ -14,10 +14,11 @@ export function errorHandlerMiddleware(
   const statusCode = isCustomException ? err.statusCode : 500;
   const errorCode = isCustomException ? err.errorCode : 'SYS0000';
   const errorMessage = isCustomException ? err.errorMessage : ErrorDictionary.SYS0000;
+  const message = typeof errorMessage === 'string' ? errorMessage : ErrorDictionary.VAL0001;
 
   const response: StandardResponse = {
     success: false,
-    message: errorMessage,
+    message,
     statusCode,
     data: null,
     errorCode,

@@ -1,6 +1,8 @@
 export const ErrorDictionary = {
   SYS0000: 'Un error inesperado ha ocurrido por favor contacte con el desarrollador',
   VAL0001: 'Los datos enviados no son validos',
+  VAL0002: 'Debe existir exactamente una variante marcada como predeterminada',
+  VAL0003: 'Debe incluir al menos una fotografia en alguna variante del producto',
   AUTH0001: 'El usuario o contrasenia no son correctos por favor valide nuevamente',
   AUTH0004: 'Token malformado por favor inicie sesion nuevamente para continuar',
   AUTH0005: 'Sesion invalida por favor inicie sesion nuevamente',
@@ -8,4 +10,11 @@ export const ErrorDictionary = {
   AUTH0007: 'Su usuario no cuenta con los permisos necesarios',
   AUTH0008: 'El correo ya se encuentra registrado',
   AUTH0009: 'El rol indicado no existe',
+  ADM0001: 'El producto indicado no existe',
+  ADM0002: 'El codigo publico del producto ya se encuentra registrado',
+  ADM0003: 'El SKU indicado ya se encuentra registrado',
+  ADM0004: 'El cupon indicado no existe',
+  ADM0005: 'El codigo de cupon ya se encuentra registrado',
+  ADM0006: 'El tipo de producto indicado no existe',
+  ADM0007: 'El usuario indicado no existe',
 } as const;

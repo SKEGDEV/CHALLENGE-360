@@ -4,6 +4,6 @@ export interface StandardResponse<T = unknown> {
   statusCode: number;
   data: T | null;
   errorCode: string | null;
-  errorMessage: string | null;
+  errorMessage: string | Record<string, string> | null;
   traceID: string;
 }

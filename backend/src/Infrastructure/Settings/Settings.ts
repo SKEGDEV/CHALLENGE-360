@@ -23,4 +23,6 @@ export class Settings implements ISettings {
   public readonly secretDbConnectionStringName: string =
     process.env.SECRET_DB_CONNECTION_STRING_NAME || '';
   public readonly secretS3CredentialsName: string = process.env.SECRET_S3_CREDENTIALS_NAME || '';
+  public readonly preSignedUrlExpirationSeconds: number =
+    Number(process.env.PRESIGNED_URL_EXPIRATION_SECONDS) || 900;
 }
