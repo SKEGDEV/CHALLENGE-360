@@ -1,4 +1,10 @@
-import { CatalogResponseData, ProductListQuery, ProductListResponseData, StandardResponse } from '../../DTOs';
+import {
+  CatalogResponseData,
+  DashboardResponseData,
+  ProductListQuery,
+  ProductListResponseData,
+  StandardResponse,
+} from '../../DTOs';
 import { StoredFileContent } from './IStorageService';
 
 export interface ICommonService {
@@ -6,4 +12,5 @@ export interface ICommonService {
   getCatalog(roles: string[]): Promise<StandardResponse<CatalogResponseData>>;
   getProducts(query: ProductListQuery): Promise<StandardResponse<ProductListResponseData>>;
   getFile(imageBucketKey: string, contentType: string): Promise<StoredFileContent>;
+  getDashboard(): Promise<StandardResponse<DashboardResponseData>>;
 }

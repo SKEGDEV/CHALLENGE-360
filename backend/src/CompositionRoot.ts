@@ -1,5 +1,5 @@
 import { ConnectionPool } from 'mssql';
-import { ISettings, IStorageService } from '@Core';
+import { IEmailService, ISettings, ISqsQueueService, IStorageService } from '@Core';
 import {
   AuthRepository,
   ClientRepository,
@@ -19,6 +19,7 @@ import {
   OperatorService,
   AdminService,
   CommonService,
+  ShipmentWorker,
 } from '@Application';
 import {
   AuthController,
@@ -29,26 +30,41 @@ import {
 } from '@Presentation';
 import { Controllers } from './app';
 
+export interface CompositionResult {
+  controllers: Controllers;
+  worker: ShipmentWorker;
+}
+
 export function buildControllers(
   pool: ConnectionPool | undefined,
   settings: ISettings,
   storageService: IStorageService | undefined,
-): Controllers {
+  emailService: IEmailService | undefined,
+  sqsQueueService: ISqsQueueService | undefined,
+  notificationQueueUrl: string | undefined,
+): CompositionResult {
   const commonHelper = new CommonHelper();
+  const commonModuleHelper = new CommonModuleHelper();
 
-  const authService = new AuthService(
-    new AuthRepository(pool),
-    new AuthHelper(settings),
+  const authService = new AuthService(new AuthRepository(pool), new AuthHelper(settings), commonHelper);
+
+  const clientService = new ClientService(new ClientRepository(pool), new ClientHelper(), commonHelper, settings);
+
+  const operatorService = new OperatorService(
+    new OperatorRepository(pool),
+    new OperatorHelper(),
     commonHelper,
+    sqsQueueService,
+    notificationQueueUrl,
   );
-  const clientService = new ClientService(new ClientRepository(pool), new ClientHelper(commonHelper));
-  const operatorService = new OperatorService(new OperatorRepository(pool), new OperatorHelper(commonHelper));
+
   const commonService = new CommonService(
     new CommonRepository(pool),
-    new CommonModuleHelper(),
+    commonModuleHelper,
     commonHelper,
     storageService,
   );
+
   const adminService = new AdminService(
     new AdminRepository(pool),
     new AdminHelper(storageService),
@@ -57,11 +73,22 @@ export function buildControllers(
     commonService,
   );
 
-  return {
+  const worker = new ShipmentWorker(
+    clientService,
+    commonModuleHelper,
+    settings,
+    sqsQueueService,
+    notificationQueueUrl,
+    emailService,
+  );
+
+  const controllers: Controllers = {
     authController: new AuthController(authService),
-    clientController: new ClientController(clientService),
-    operatorController: new OperatorController(operatorService),
+    clientController: new ClientController(clientService, authService),
+    operatorController: new OperatorController(operatorService, authService),
     adminController: new AdminController(adminService, authService),
     commonController: new CommonController(commonService, authService),
   };
+
+  return { controllers, worker };
 }

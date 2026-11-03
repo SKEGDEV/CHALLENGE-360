@@ -2,6 +2,9 @@ import { ConnectionPool } from 'mssql';
 import {
   CatalogSnapshot,
   CatDTO,
+  DashboardCategoryRow,
+  DashboardRawResult,
+  DashboardVariantRow,
   ICommonRepository,
   ProductSearchFilters,
   ProductSearchResult,
@@ -9,6 +12,16 @@ import {
   RawProductRow,
   RawVariantRow,
 } from '@Core';
+
+function mapDashboardVariantRows(rows: Array<Record<string, unknown>>): DashboardVariantRow[] {
+  return rows.map((row) => ({
+    idProduct: row.IDProduct as number,
+    productName: row.ProductName as string,
+    idVariant: row.IDVariant as number,
+    sku: row.SKU as string,
+    totalQuantity: Number(row.TotalQuantity),
+  }));
+}
 
 function mapCatRows(rows: Array<Record<string, unknown>>): CatDTO[] {
   return rows.map((row) => ({
@@ -93,6 +106,26 @@ export class CommonRepository implements ICommonRepository {
       CatShippmentStatus: mapCatRows(shippmentStatus),
       CatShippmentMethod: mapCatRows(shippmentMethod),
       CatReverseReason: mapCatRows(reverseReason),
+    };
+  }
+
+  async getDashboard(): Promise<DashboardRawResult> {
+    const request = this.getPool().request();
+    const result = await request.execute('SP_Common_ObtenerDashboard');
+    const [mostShippedRecordset, leastShippedRecordset, categoryRecordset] = result.recordsets as Array<
+      Array<Record<string, unknown>>
+    >;
+
+    const topCategories: DashboardCategoryRow[] = categoryRecordset.map((row) => ({
+      idProductType: row.IDProductType as number,
+      productTypeName: row.ProductTypeName as string,
+      totalQuantity: Number(row.TotalQuantity),
+    }));
+
+    return {
+      mostShipped: mapDashboardVariantRows(mostShippedRecordset),
+      leastShipped: mapDashboardVariantRows(leastShippedRecordset),
+      topCategories,
     };
   }
 }

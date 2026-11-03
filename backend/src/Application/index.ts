@@ -1,3 +1,4 @@
 export * from './Helpers';
 export * from './Services';
 export * from './Middleware';
+export * from './Workers';

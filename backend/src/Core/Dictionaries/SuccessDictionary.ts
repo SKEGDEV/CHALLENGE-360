@@ -9,4 +9,9 @@ export const SuccessDictionary = {
   OK0008: 'Registro actualizado correctamente',
   OK0009: 'Registro eliminado correctamente',
   OK0010: 'Usuario inactivado correctamente',
+  OK0011: 'Se agrego correctamente a inventario',
+  OK0012: 'Estado de envio actualizado correctamente',
+  OK0013: 'Pre orden creada correctamente',
+  OK0014: 'Producto agregado a la pre orden correctamente',
+  OK0015: 'Envio confirmado correctamente',
 } as const;

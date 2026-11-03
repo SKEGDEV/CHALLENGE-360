@@ -1,5 +1,6 @@
 import {
   CatalogResponseData,
+  DashboardResponseData,
   ICommonHelper,
   ICommonModuleHelper,
   ICommonRepository,
@@ -54,5 +55,11 @@ export class CommonService implements ICommonService {
 
     const content = await this.storageService.getFile(imageBucketKey);
     return this.commonModuleHelper.buildFileResponse(content, contentType);
+  }
+
+  async getDashboard(): Promise<StandardResponse<DashboardResponseData>> {
+    const raw = await this.commonRepository.getDashboard();
+    const data = this.commonModuleHelper.buildDashboardResponse(raw);
+    return this.commonHelper.buildResponse(200, data, SuccessDictionary.OK0006);
   }
 }

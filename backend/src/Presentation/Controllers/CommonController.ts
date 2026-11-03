@@ -1,6 +1,10 @@
 import { Request, Response, Router } from 'express';
 import { IAuthService, ICommonService } from '@Core';
-import { AuthenticatedRequest, buildValidateSessionMiddleware } from '@Application';
+import {
+  AuthenticatedRequest,
+  buildValidateRoleMiddleware,
+  buildValidateSessionMiddleware,
+} from '@Application';
 
 export class CommonController {
   public readonly router: Router;
@@ -19,6 +23,7 @@ export class CommonController {
 
   private registerRoutes(): void {
     const validateSession = buildValidateSessionMiddleware(this.authService);
+    const validateRole = buildValidateRoleMiddleware(this.authService);
 
     /**
      * @openapi
@@ -117,6 +122,23 @@ export class CommonController {
 
       const file = await this.commonService.getFile(imageBucketKey, contentType);
       res.status(200).contentType(file.contentType).send(file.body);
+    });
+
+    /**
+     * @openapi
+     * /api/common/dashboard:
+     *   get:
+     *     tags: [Common]
+     *     summary: Metricas de envios para administradores y operadores (mas/menos vendidos, categorias top, notificaciones recientes)
+     *     security:
+     *       - bearerAuth: []
+     *     responses:
+     *       200:
+     *         description: Datos del dashboard
+     */
+    this.router.get('/dashboard', validateSession, validateRole, async (_req: Request, res: Response) => {
+      const response = await this.commonService.getDashboard();
+      res.status(200).json(response);
     });
   }
 }

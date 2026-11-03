@@ -5,3 +5,5 @@ export * from './IAdminService';
 export * from './ICommonService';
 export * from './ISecretsManagerService';
 export * from './IStorageService';
+export * from './IEmailService';
+export * from './ISqsQueueService';

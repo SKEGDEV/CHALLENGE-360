@@ -189,7 +189,8 @@ CREATE TABLE Invoice(
   isReversed bit not null,
   ReversedNotes varchar(200),
   InvoiceUserUpdatedBy int NULL,
-  InvoiceUserUpdatedAt Datetime NULL
+  InvoiceUserUpdatedAt Datetime NULL,
+  rowStatus bit not null
 );
 
 CREATE TABLE InvoiceItem(
@@ -199,7 +200,18 @@ CREATE TABLE InvoiceItem(
   Quantity int not null,
   PriceShiped decimal(18,2) not null,
   isReversed bit not null,
-  IDReverseReason int NULL
+  IDReverseReason int NULL,
+  rowStatus bit not null
+);
+GO
+
+CREATE TABLE InventoryMove(
+  IDMove int primary key identity(1,1),
+  IDUserMove int not null,
+  IDProductVariant int not null,
+  Quantity int not null,
+  moveType varchar(20) not null,
+  MoveCreatedAt Datetime not null default GETDATE()
 );
 GO
 

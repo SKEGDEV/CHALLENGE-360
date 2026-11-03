@@ -15,4 +15,16 @@ export interface ISettings {
   secretDbConnectionStringName: string;
   secretS3CredentialsName: string;
   preSignedUrlExpirationSeconds: number;
+
+  secretSmtpCredentialsName: string;
+  secretSqsCredentialsName: string;
+
+  sqsQueueName: string;
+  sqsDlqName: string;
+  sqsMaxReceiveCount: number;
+  sqsWaitTimeSeconds: number;
+
+  preOrderExpirationMinutes: number;
+  preOrderWorkerIntervalMs: number;
+  taxIvaPercentage: number;
 }

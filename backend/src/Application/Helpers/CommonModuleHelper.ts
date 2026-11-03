@@ -1,11 +1,14 @@
 import {
   CatalogResponseData,
   CatalogSnapshot,
+  DashboardRawResult,
+  DashboardResponseData,
   ICommonModuleHelper,
   ProductListItem,
   ProductListResponseData,
   ProductSearchResult,
   RawVariantRow,
+  ShipmentNotificationCacheEntry,
   StoredFileContent,
 } from '@Core';
 
@@ -15,8 +18,12 @@ const ROLE_CATALOG_MAP: Record<string, Array<keyof CatalogSnapshot>> = {
   RCPU: ['CatReverseReason', 'CatShippmentMethod'],
 };
 
+const MAX_CACHED_NOTIFICATIONS = 50;
+const DEFAULT_RECENT_NOTIFICATIONS = 10;
+
 export class CommonModuleHelper implements ICommonModuleHelper {
   private catalogSnapshot: CatalogSnapshot | null = null;
+  private readonly shipmentNotificationCache: ShipmentNotificationCacheEntry[] = [];
 
   setCatalogSnapshot(snapshot: CatalogSnapshot): void {
     this.catalogSnapshot = snapshot;
@@ -111,5 +118,42 @@ export class CommonModuleHelper implements ICommonModuleHelper {
       return { body: Buffer.alloc(0), contentType: requestedContentType };
     }
     return content;
+  }
+
+  cacheShipmentNotification(entry: ShipmentNotificationCacheEntry): void {
+    this.shipmentNotificationCache.unshift(entry);
+    this.shipmentNotificationCache.length = Math.min(
+      this.shipmentNotificationCache.length,
+      MAX_CACHED_NOTIFICATIONS,
+    );
+  }
+
+  getRecentShipmentNotifications(limit: number = DEFAULT_RECENT_NOTIFICATIONS): ShipmentNotificationCacheEntry[] {
+    return this.shipmentNotificationCache.slice(0, limit);
+  }
+
+  buildDashboardResponse(raw: DashboardRawResult): DashboardResponseData {
+    return {
+      mostShippedVariants: raw.mostShipped.map((row) => ({
+        idProduct: row.idProduct,
+        productName: row.productName,
+        idVariant: row.idVariant,
+        sku: row.sku,
+        totalQuantityShipped: row.totalQuantity,
+      })),
+      leastShippedVariants: raw.leastShipped.map((row) => ({
+        idProduct: row.idProduct,
+        productName: row.productName,
+        idVariant: row.idVariant,
+        sku: row.sku,
+        totalQuantityShipped: row.totalQuantity,
+      })),
+      topCategories: raw.topCategories.map((row) => ({
+        idProductType: row.idProductType,
+        productTypeName: row.productTypeName,
+        totalQuantitySold: row.totalQuantity,
+      })),
+      recentShipmentNotifications: this.getRecentShipmentNotifications(),
+    };
   }
 }

@@ -50,6 +50,26 @@ export interface CatalogSnapshot {
   CatReverseReason: CatDTO[];
 }
 
+export interface DashboardVariantRow {
+  idProduct: number;
+  productName: string;
+  idVariant: number;
+  sku: string;
+  totalQuantity: number;
+}
+
+export interface DashboardCategoryRow {
+  idProductType: number;
+  productTypeName: string;
+  totalQuantity: number;
+}
+
+export interface DashboardRawResult {
+  mostShipped: DashboardVariantRow[];
+  leastShipped: DashboardVariantRow[];
+  topCategories: DashboardCategoryRow[];
+}
+
 export interface ICommonRepository {
   searchProducts(
     pageNumber: number,
@@ -57,4 +77,5 @@ export interface ICommonRepository {
     filters: ProductSearchFilters,
   ): Promise<ProductSearchResult>;
   getCatalogSnapshot(): Promise<CatalogSnapshot>;
+  getDashboard(): Promise<DashboardRawResult>;
 }

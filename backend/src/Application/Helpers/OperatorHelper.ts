@@ -1,5 +1,13 @@
-import { IOperatorHelper, ICommonHelper } from '@Core';
+import { IOperatorHelper, ShipmentNotificationMessage, ShipmentStatusUpdateResult } from '@Core';
 
 export class OperatorHelper implements IOperatorHelper {
-  constructor(private readonly commonHelper: ICommonHelper) {}
+  buildShipmentNotificationMessage(result: ShipmentStatusUpdateResult): ShipmentNotificationMessage {
+    return {
+      toEmail: result.userEmail,
+      toName: result.userFirstName,
+      invoiceNumber: result.invoiceNumber,
+      shippmentGuide: result.shippmentGuide,
+      statusName: result.newStatusName,
+    };
+  }
 }

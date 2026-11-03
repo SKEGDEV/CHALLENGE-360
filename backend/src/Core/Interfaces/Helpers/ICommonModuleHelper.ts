@@ -1,5 +1,10 @@
-import { CatalogResponseData, ProductListResponseData } from '../../DTOs';
-import { CatalogSnapshot, ProductSearchResult } from '../Repositories/ICommonRepository';
+import {
+  CatalogResponseData,
+  DashboardResponseData,
+  ProductListResponseData,
+  ShipmentNotificationCacheEntry,
+} from '../../DTOs';
+import { CatalogSnapshot, DashboardRawResult, ProductSearchResult } from '../Repositories/ICommonRepository';
 import { StoredFileContent } from '../Services/IStorageService';
 
 export interface ICommonModuleHelper {
@@ -12,4 +17,8 @@ export interface ICommonModuleHelper {
     result: ProductSearchResult,
   ): ProductListResponseData;
   buildFileResponse(content: StoredFileContent | null, requestedContentType: string): StoredFileContent;
+
+  cacheShipmentNotification(entry: ShipmentNotificationCacheEntry): void;
+  getRecentShipmentNotifications(limit?: number): ShipmentNotificationCacheEntry[];
+  buildDashboardResponse(raw: DashboardRawResult): DashboardResponseData;
 }
