@@ -14,6 +14,15 @@ BEGIN
 END
 GO
 
+-- Invoice tampoco contaba con rowStatus en algunos entornos (drift previo
+-- a este spec); se necesita para poder desactivar la factura cuando una
+-- pre orden expira.
+IF NOT EXISTS (SELECT 1 FROM sys.columns WHERE object_id = OBJECT_ID('Invoice') AND name = 'rowStatus')
+BEGIN
+  ALTER TABLE Invoice ADD rowStatus bit NOT NULL CONSTRAINT DF_Invoice_rowStatus DEFAULT 1;
+END
+GO
+
 -- Invoice necesita saber cuando fue agregado el ultimo item para que el
 -- worker de expiracion de pre ordenes pueda calcular el tiempo de limbo.
 IF NOT EXISTS (SELECT 1 FROM sys.columns WHERE object_id = OBJECT_ID('Invoice') AND name = 'LastItemAddedAt')
@@ -23,9 +32,30 @@ END
 GO
 
 -- ==========================================
+-- InventoryMove: la tabla ya estaba en el ERD original (1.Schema.sql),
+-- pero su definicion tenia un error de sintaxis (a IDProductVariant le
+-- faltaba el tipo "int"), por lo que en entornos donde ya se habia corrido
+-- 1.Schema.sql antes de corregirlo la tabla nunca llego a crearse. Se crea
+-- aqui de forma idempotente para esos entornos; en los nuevos (DB recien
+-- creada con el 1.Schema.sql ya corregido) este bloque no hace nada.
+-- ==========================================
+
+IF OBJECT_ID('dbo.InventoryMove', 'U') IS NULL
+BEGIN
+  CREATE TABLE InventoryMove(
+    IDMove int primary key identity(1,1),
+    IDUserMove int not null,
+    IDProductVariant int not null,
+    Quantity int not null,
+    moveType varchar(20) not null,
+    MoveCreatedAt Datetime not null default GETDATE()
+  );
+END
+GO
+
+-- ==========================================
 -- INTEGRIDAD REFERENCIAL E INDICES FALTANTES
--- PARA InventoryMove (tabla ya existia en el ERD
--- pero sin FKs/indices)
+-- PARA InventoryMove
 -- ==========================================
 
 IF NOT EXISTS (SELECT 1 FROM sys.foreign_keys WHERE name = 'FK_InventoryMove_User')
