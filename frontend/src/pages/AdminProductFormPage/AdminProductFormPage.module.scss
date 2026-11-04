@@ -1,0 +1,75 @@
+@use '@styles' as *;
+
+.page {
+  max-width: 880px;
+}
+
+.back {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 13px;
+  color: var(--color-text-secondary);
+  margin-bottom: var(--space-3);
+
+  &:hover {
+    text-decoration: none;
+    color: var(--color-text);
+  }
+}
+
+.page h1 {
+  font-size: 26px;
+  letter-spacing: -0.03em;
+  margin-bottom: var(--space-5);
+}
+
+.section {
+  background: var(--color-card);
+  border: 1px solid var(--color-separator);
+  border-radius: var(--radius-lg);
+  padding: var(--space-5);
+  display: grid;
+  gap: var(--space-4);
+  margin-bottom: var(--space-6);
+}
+
+.row {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--space-3);
+
+  @media (max-width: 640px) {
+    grid-template-columns: 1fr;
+  }
+}
+
+.variantsHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: var(--space-3);
+
+  h2 {
+    font-size: 18px;
+    font-weight: 600;
+  }
+}
+
+.variants {
+  display: grid;
+  gap: var(--space-4);
+  margin-bottom: var(--space-5);
+}
+
+.formError {
+  color: var(--color-danger);
+  font-size: 14px;
+  margin-bottom: var(--space-4);
+}
+
+.footer {
+  display: flex;
+  justify-content: flex-end;
+  padding-bottom: var(--space-8);
+}

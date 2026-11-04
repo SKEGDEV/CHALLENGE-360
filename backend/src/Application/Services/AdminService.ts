@@ -1,4 +1,6 @@
 import {
+  AdminUserListQuery,
+  AdminUserListResponseData,
   CreateCuponRequest,
   CreateProductRequest,
   CreateProductTypeRequest,
@@ -112,6 +114,11 @@ export class AdminService implements IAdminService {
   ): Promise<StandardResponse<PresignedFileResponseData>> {
     const result = await this.adminHelper.buildPresignedUrls(data, this.settings.preSignedUrlExpirationSeconds);
     return this.commonHelper.buildResponse(200, result, SuccessDictionary.OK0005);
+  }
+
+  async getUsers(query: AdminUserListQuery): Promise<StandardResponse<AdminUserListResponseData>> {
+    const result = await this.adminRepository.getUsers(query);
+    return this.commonHelper.buildResponse(200, result, SuccessDictionary.OK0006);
   }
 
   async inactivateUser(idUser: number): Promise<StandardResponse<null>> {

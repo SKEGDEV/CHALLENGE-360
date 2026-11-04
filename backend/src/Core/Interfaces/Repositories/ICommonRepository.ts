@@ -12,6 +12,7 @@ export interface ProductSearchFilters {
 export interface RawProductRow {
   idProduct: number;
   idProductType: number;
+  productTypeName: string;
   productName: string;
   productDescription: string;
   productPublicCode: string;

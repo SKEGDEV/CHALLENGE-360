@@ -1,10 +1,15 @@
 import type { ReactNode } from 'react';
+import { AuthProvider } from './auth';
+import { CartProvider } from './cart';
 
 interface StoreProviderProps {
   children: ReactNode;
 }
 
-// No slices yet: nests each slice provider here as the feature-builder skill adds one.
 export function StoreProvider({ children }: StoreProviderProps) {
-  return <>{children}</>;
+  return (
+    <AuthProvider>
+      <CartProvider>{children}</CartProvider>
+    </AuthProvider>
+  );
 }

@@ -1,0 +1,90 @@
+@use '@styles' as *;
+
+.page {
+  padding: var(--space-6) 22px var(--space-8);
+  max-width: 720px;
+  margin: 0 auto;
+}
+
+.successBanner {
+  display: flex;
+  gap: var(--space-3);
+  align-items: center;
+  background: var(--color-success-bg);
+  color: var(--color-success);
+  border-radius: var(--radius-md);
+  padding: var(--space-4) var(--space-5);
+  margin-bottom: var(--space-6);
+
+  h2 {
+    font-size: 17px;
+    color: var(--color-text);
+  }
+
+  p {
+    font-size: 13px;
+    color: var(--color-text-secondary);
+  }
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  margin-bottom: var(--space-6);
+
+  h1 {
+    font-size: 26px;
+    letter-spacing: -0.03em;
+  }
+}
+
+.section {
+  margin-bottom: var(--space-6);
+
+  h2 {
+    font-size: 15px;
+    font-weight: 600;
+    margin-bottom: var(--space-3);
+  }
+}
+
+.itemRow {
+  display: flex;
+  justify-content: space-between;
+  font-size: 14px;
+  padding: var(--space-2) 0;
+  border-bottom: 1px solid var(--color-separator);
+}
+
+.addressText {
+  font-size: 14px;
+  color: var(--color-text-secondary);
+  line-height: 1.5;
+}
+
+.totals {
+  display: grid;
+  gap: var(--space-1);
+  background: var(--color-bg-secondary);
+  border-radius: var(--radius-md);
+  padding: var(--space-4) var(--space-5);
+}
+
+.totalRow {
+  display: flex;
+  justify-content: space-between;
+  font-size: 14px;
+  color: var(--color-text-secondary);
+}
+
+.grandTotal {
+  display: flex;
+  justify-content: space-between;
+  font-size: 19px;
+  font-weight: 600;
+  color: var(--color-text);
+  padding-top: var(--space-2);
+  margin-top: var(--space-1);
+  border-top: 1px solid var(--color-separator);
+}

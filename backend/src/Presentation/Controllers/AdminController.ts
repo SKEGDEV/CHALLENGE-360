@@ -213,6 +213,42 @@ export class AdminController {
 
     /**
      * @openapi
+     * /api/admin/user:
+     *   get:
+     *     tags: [Admin]
+     *     summary: Lista los usuarios de forma paginada
+     *     security:
+     *       - bearerAuth: []
+     *     parameters:
+     *       - in: query
+     *         name: pageNumber
+     *         schema: { type: integer, default: 1 }
+     *       - in: query
+     *         name: pageSize
+     *         schema: { type: integer, default: 20 }
+     *       - in: query
+     *         name: search
+     *         schema: { type: string }
+     *         description: Busca por nombre, apellido o correo
+     *       - in: query
+     *         name: idUserStatus
+     *         schema: { type: integer }
+     *     responses:
+     *       200:
+     *         description: Listado de usuarios
+     */
+    this.router.get('/user', ...protect, async (req: Request, res: Response) => {
+      const response = await this.adminService.getUsers({
+        pageNumber: req.query.pageNumber ? Number(req.query.pageNumber) : undefined,
+        pageSize: req.query.pageSize ? Number(req.query.pageSize) : undefined,
+        search: typeof req.query.search === 'string' ? req.query.search : undefined,
+        idUserStatus: req.query.idUserStatus ? Number(req.query.idUserStatus) : undefined,
+      });
+      res.status(200).json(response);
+    });
+
+    /**
+     * @openapi
      * /api/admin/user/{idUser}/inactivate:
      *   put:
      *     tags: [Admin]

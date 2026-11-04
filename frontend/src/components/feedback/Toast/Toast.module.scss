@@ -1,0 +1,30 @@
+@use '@styles' as *;
+
+.toast {
+  position: fixed;
+  left: 50%;
+  bottom: calc(24px + env(safe-area-inset-bottom, 0px));
+  transform: translate(-50%, 30px);
+  opacity: 0;
+  z-index: 200;
+  background: var(--color-glass);
+  backdrop-filter: saturate(180%) blur(24px);
+  -webkit-backdrop-filter: saturate(180%) blur(24px);
+  color: var(--color-text);
+  border: 1px solid var(--color-separator);
+  padding: 11px 20px;
+  border-radius: var(--radius-pill);
+  font-size: 14px;
+  font-weight: 500;
+  box-shadow: var(--shadow-lg);
+  transition:
+    opacity 0.25s,
+    transform 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
+  pointer-events: none;
+  max-width: calc(100% - 32px);
+}
+
+.show {
+  opacity: 1;
+  transform: translate(-50%, 0);
+}

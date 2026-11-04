@@ -1,0 +1,47 @@
+@use '@styles' as *;
+
+.line {
+  display: grid;
+  grid-template-columns: 76px 1fr auto;
+  gap: var(--space-4);
+  padding: var(--space-4) 0;
+  border-bottom: 1px solid var(--color-separator);
+}
+
+.name {
+  font-size: 15px;
+  font-weight: 600;
+  line-height: 1.25;
+}
+
+.meta {
+  font-size: 13px;
+  color: var(--color-text-secondary);
+  margin: 2px 0 var(--space-2);
+}
+
+.lineEnd {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: var(--space-2);
+}
+
+.linePrice {
+  font-size: 15px;
+}
+
+.removeBtn {
+  font-size: 13px;
+  color: var(--color-link);
+  border: 0;
+  background: none;
+}
+
+.summaryRow {
+  display: flex;
+  justify-content: space-between;
+  font-size: 19px;
+  font-weight: 600;
+  padding-bottom: var(--space-3);
+}

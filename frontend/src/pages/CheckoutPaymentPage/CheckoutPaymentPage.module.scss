@@ -1,0 +1,39 @@
+@use '@styles' as *;
+
+.page {
+  padding: var(--space-6) 22px var(--space-8);
+  display: grid;
+  place-items: center;
+}
+
+.card {
+  width: 100%;
+  max-width: 440px;
+}
+
+.card h1 {
+  font-size: 28px;
+  letter-spacing: -0.03em;
+}
+
+.sub {
+  font-size: 14px;
+  color: var(--color-text-secondary);
+  margin: var(--space-2) 0 var(--space-6);
+}
+
+.form {
+  display: grid;
+  gap: var(--space-4);
+}
+
+.row2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-3);
+}
+
+.error {
+  color: var(--color-danger);
+  font-size: 13px;
+}

@@ -1,0 +1,22 @@
+@use '@styles' as *;
+
+.page h1 {
+  font-size: 26px;
+  letter-spacing: -0.03em;
+  margin-bottom: var(--space-5);
+}
+
+.toolbar {
+  max-width: 320px;
+  margin-bottom: var(--space-5);
+}
+
+.adjustRow {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.adjustInput {
+  width: 80px;
+}

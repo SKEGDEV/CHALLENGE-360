@@ -43,6 +43,7 @@ export interface ProductListVariant {
 export interface ProductListItem {
   idProduct: number;
   idProductType: number;
+  productTypeName: string;
   productName: string;
   productDescription: string;
   productPublicCode: string;

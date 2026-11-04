@@ -1,0 +1,34 @@
+@use '@styles' as *;
+
+.avatar {
+  border-radius: var(--radius-circle);
+  background: linear-gradient(180deg, #a1a1a6, #6e6e73);
+  color: #fff;
+  font-weight: 600;
+  display: grid;
+  place-items: center;
+  letter-spacing: 0;
+  flex-shrink: 0;
+}
+
+.accent {
+  background: linear-gradient(180deg, #5e9eff, #0a63d6);
+}
+
+.sm {
+  width: 30px;
+  height: 30px;
+  font-size: 12px;
+}
+
+.md {
+  width: 36px;
+  height: 36px;
+  font-size: 13px;
+}
+
+.lg {
+  width: 44px;
+  height: 44px;
+  font-size: 16px;
+}

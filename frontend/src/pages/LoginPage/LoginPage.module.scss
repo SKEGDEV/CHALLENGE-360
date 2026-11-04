@@ -1,0 +1,47 @@
+@use '@styles' as *;
+
+.page {
+  min-height: calc(100vh - 52px);
+  display: grid;
+  place-items: center;
+  padding: 56px 20px 72px;
+}
+
+.card {
+  width: 100%;
+  max-width: 420px;
+  text-align: center;
+}
+
+.card h1 {
+  font-size: 32px;
+  letter-spacing: -0.035em;
+  line-height: 1.15;
+  font-weight: 600;
+}
+
+.sub {
+  font-size: 15px;
+  color: var(--color-text-secondary);
+  margin: var(--space-3) auto var(--space-7);
+  max-width: 340px;
+  line-height: 1.45;
+}
+
+.form {
+  display: grid;
+  gap: var(--space-3);
+  text-align: left;
+}
+
+.error {
+  color: var(--color-danger);
+  font-size: 13px;
+  min-height: 20px;
+}
+
+.switch {
+  margin-top: var(--space-6);
+  font-size: 14px;
+  color: var(--color-text-secondary);
+}

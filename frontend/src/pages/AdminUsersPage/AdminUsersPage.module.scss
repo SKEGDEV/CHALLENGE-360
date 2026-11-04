@@ -1,0 +1,39 @@
+@use '@styles' as *;
+
+.page h1 {
+  font-size: 26px;
+  letter-spacing: -0.03em;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+  margin-bottom: var(--space-5);
+}
+
+.toolbar {
+  display: flex;
+  gap: var(--space-3);
+  flex-wrap: wrap;
+  margin-bottom: var(--space-5);
+
+  > :first-child {
+    flex: 1;
+    min-width: 200px;
+    max-width: 320px;
+  }
+}
+
+.form {
+  display: grid;
+  gap: var(--space-4);
+  padding: var(--space-4) 0;
+}
+
+.formError {
+  color: var(--color-danger);
+  font-size: 13px;
+}

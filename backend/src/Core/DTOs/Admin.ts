@@ -144,3 +144,20 @@ export interface ProductTypeItem {
   productTypeName: string;
   productTypeDescription: string;
 }
+
+export interface AdminUserListItem {
+  idUser: number;
+  userFirstName: string;
+  userLastName: string;
+  userEmail: string;
+  userBirthday: Date;
+  idUserStatus: number;
+  rolePublicCode: string;
+}
+
+export interface AdminUserListQuery extends PaginationQuery {
+  search?: string;
+  idUserStatus?: number;
+}
+
+export type AdminUserListResponseData = PaginatedResult<AdminUserListItem>;

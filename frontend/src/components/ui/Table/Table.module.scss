@@ -1,0 +1,42 @@
+@use '@styles' as *;
+
+.wrap {
+  overflow-x: auto;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--color-separator);
+  background: var(--color-card);
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+  min-width: 560px;
+
+  th,
+  td {
+    text-align: left;
+    padding: var(--space-3) var(--space-4);
+    white-space: nowrap;
+  }
+
+  thead th {
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: var(--color-text-secondary);
+    border-bottom: 1px solid var(--color-separator);
+  }
+
+  tbody tr {
+    border-bottom: 1px solid var(--color-separator);
+
+    &:last-child {
+      border-bottom: none;
+    }
+
+    &:hover {
+      background: var(--color-fill);
+    }
+  }
+}

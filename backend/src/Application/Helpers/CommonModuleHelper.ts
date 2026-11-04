@@ -83,6 +83,7 @@ export class CommonModuleHelper implements ICommonModuleHelper {
     const items: ProductListItem[] = result.products.map((product) => ({
       idProduct: product.idProduct,
       idProductType: product.idProductType,
+      productTypeName: product.productTypeName,
       productName: product.productName,
       productDescription: product.productDescription,
       productPublicCode: product.productPublicCode,

@@ -1,4 +1,6 @@
 import {
+  AdminUserListItem,
+  AdminUserListQuery,
   CreateCuponRequest,
   CuponDetail,
   CuponListItem,
@@ -60,6 +62,7 @@ export interface IAdminRepository {
   ): Promise<void>;
   deleteProduct(idProduct: number, updatedBy: number): Promise<void>;
 
+  getUsers(query: AdminUserListQuery): Promise<PaginatedResult<AdminUserListItem>>;
   inactivateUser(idUser: number): Promise<void>;
 
   createCupon(data: CreateCuponRequest, createdBy: number): Promise<number>;

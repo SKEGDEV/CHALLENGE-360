@@ -68,6 +68,7 @@ export class CommonRepository implements ICommonRepository {
     const products: RawProductRow[] = productRecordset.map((row) => ({
       idProduct: row.IDProduct as number,
       idProductType: row.IDProductType as number,
+      productTypeName: row.ProductTypeName as string,
       productName: row.ProductName as string,
       productDescription: row.ProductDescription as string,
       productPublicCode: row.ProductPublicCode as string,

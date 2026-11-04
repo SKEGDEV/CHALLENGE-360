@@ -1,0 +1,45 @@
+@use '@styles' as *;
+
+.group {
+  display: grid;
+  gap: var(--space-1);
+}
+
+.label {
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--color-text-secondary);
+}
+
+.field {
+  width: 100%;
+  background: var(--color-fill);
+  border: 1px solid transparent;
+  border-radius: 10px;
+  padding: 9px 32px 9px 12px;
+  font-size: 15px;
+  outline: none;
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%2386868b' stroke-width='1.6' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+  transition:
+    border-color 0.15s,
+    box-shadow 0.15s,
+    background-color 0.15s;
+
+  &:focus {
+    border-color: var(--color-primary);
+    background-color: var(--color-card);
+    box-shadow: 0 0 0 4px color-mix(in srgb, var(--color-primary) 22%, transparent);
+  }
+}
+
+.invalid {
+  border-color: var(--color-danger);
+}
+
+.error {
+  font-size: 13px;
+  color: var(--color-danger);
+}

@@ -1,0 +1,1 @@
+export { OperatorInventoryPage } from './OperatorInventoryPage';

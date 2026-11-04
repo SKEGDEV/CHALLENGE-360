@@ -1,5 +1,7 @@
 import sql, { ConnectionPool } from 'mssql';
 import {
+  AdminUserListItem,
+  AdminUserListQuery,
   CreateCuponRequest,
   CuponDetail,
   CuponListItem,
@@ -214,6 +216,37 @@ export class AdminRepository implements IAdminRepository {
     request.input('IDProduct', idProduct);
     request.input('UpdatedBy', updatedBy);
     await request.execute('SP_Admin_EliminarProducto');
+  }
+
+  async getUsers(query: AdminUserListQuery): Promise<PaginatedResult<AdminUserListItem>> {
+    const pageNumber = query.pageNumber ?? 1;
+    const pageSize = query.pageSize ?? 20;
+
+    const request = this.getPool().request();
+    request.input('PageNumber', pageNumber);
+    request.input('PageSize', pageSize);
+    request.input('Search', query.search ?? null);
+    request.input('IDUserStatus', query.idUserStatus ?? null);
+    const result = await request.execute('SP_Admin_ObtenerUsuarios');
+
+    const rows = result.recordset as Array<Record<string, unknown>>;
+    const totalCount = rows.length > 0 ? Number(rows[0].TotalCount) : 0;
+
+    return {
+      items: rows.map((row) => ({
+        idUser: row.IDUser as number,
+        userFirstName: row.UserFirstName as string,
+        userLastName: row.UserLastName as string,
+        userEmail: row.UserEmail as string,
+        userBirthday: row.UserBirthday as Date,
+        idUserStatus: row.IDUserStatus as number,
+        rolePublicCode: row.RolePublicCode as string,
+      })),
+      pageNumber,
+      pageSize,
+      totalCount,
+      totalPages: pageSize > 0 ? Math.ceil(totalCount / pageSize) : 0,
+    };
   }
 
   async inactivateUser(idUser: number): Promise<void> {

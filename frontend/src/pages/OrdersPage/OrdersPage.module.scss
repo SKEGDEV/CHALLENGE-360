@@ -1,0 +1,48 @@
+@use '@styles' as *;
+
+.page {
+  padding: var(--space-6) 22px var(--space-8);
+}
+
+.page h1 {
+  font-size: 28px;
+  letter-spacing: -0.03em;
+  margin-bottom: var(--space-6);
+}
+
+.list {
+  display: grid;
+  gap: var(--space-3);
+}
+
+.row {
+  display: grid;
+  grid-template-columns: 1fr auto auto;
+  align-items: center;
+  gap: var(--space-4);
+  background: var(--color-bg-secondary);
+  border-radius: var(--radius-md);
+  padding: var(--space-4) var(--space-5);
+  color: var(--color-text);
+
+  &:hover {
+    text-decoration: none;
+    background: var(--color-fill);
+  }
+}
+
+.number {
+  font-weight: 600;
+  font-size: 15px;
+}
+
+.date {
+  font-size: 13px;
+  color: var(--color-text-secondary);
+}
+
+.total {
+  font-size: 15px;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+}

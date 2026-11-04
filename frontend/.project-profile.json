@@ -4,7 +4,26 @@
   "packageManager": "pnpm",
   "routing": true,
   "api": { "enabled": true, "baseUrlEnvVar": "VITE_API_URL" },
-  "globalState": { "enabled": true, "slices": [] },
+  "globalState": { "enabled": true, "slices": ["auth", "cart"] },
   "allowedLayers": ["app", "assets", "components", "core", "hooks", "layouts", "pages", "services", "store", "styles"],
-  "pages": [{ "name": "HomePage", "path": "/" }]
+  "pages": [
+    { "name": "HomePage", "path": "/" },
+    { "name": "ProductDetailPage", "path": "/product/$idProduct" },
+    { "name": "LoginPage", "path": "/login" },
+    { "name": "RegisterPage", "path": "/register" },
+    { "name": "CheckoutPage", "path": "/checkout" },
+    { "name": "CheckoutPaymentPage", "path": "/checkout/payment" },
+    { "name": "OrdersPage", "path": "/orders" },
+    { "name": "OrderDetailPage", "path": "/orders/$idInvoice" },
+    { "name": "AdminDashboardPage", "path": "/admin" },
+    { "name": "AdminProductsPage", "path": "/admin/products" },
+    { "name": "AdminProductFormPage", "path": "/admin/products/new" },
+    { "name": "AdminProductFormPage", "path": "/admin/products/$idProduct" },
+    { "name": "AdminCuponsPage", "path": "/admin/cupons" },
+    { "name": "AdminProductTypesPage", "path": "/admin/product-types" },
+    { "name": "AdminUsersPage", "path": "/admin/users" },
+    { "name": "OperatorDashboardPage", "path": "/operator" },
+    { "name": "OperatorInventoryPage", "path": "/operator/inventory" },
+    { "name": "OperatorShipmentsPage", "path": "/operator/shipments" }
+  ]
 }

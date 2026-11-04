@@ -1,0 +1,30 @@
+@use '@styles' as *;
+
+.chip {
+  border: 1px solid var(--color-separator-strong);
+  background: var(--color-card);
+  border-radius: var(--radius-pill);
+  padding: 6px 14px;
+  font-size: 13px;
+  color: var(--color-text);
+  transition:
+    background 0.15s,
+    border-color 0.15s,
+    color 0.15s;
+
+  &:hover:not(:disabled) {
+    border-color: var(--color-text-tertiary);
+  }
+
+  &:disabled {
+    opacity: 0.35;
+    text-decoration: line-through;
+    cursor: not-allowed;
+  }
+}
+
+.selected {
+  background: var(--color-primary);
+  border-color: var(--color-primary);
+  color: #fff;
+}

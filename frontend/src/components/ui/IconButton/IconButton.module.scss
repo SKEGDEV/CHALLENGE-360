@@ -1,0 +1,35 @@
+@use '@styles' as *;
+
+.btn {
+  border: 0;
+  border-radius: var(--radius-circle);
+  background: transparent;
+  color: var(--color-text);
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+  transition: background 0.15s;
+
+  &:hover:not(:disabled) {
+    background: var(--color-fill);
+  }
+
+  &:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+  }
+}
+
+.md {
+  width: 36px;
+  height: 36px;
+}
+
+.sm {
+  width: 28px;
+  height: 28px;
+}
+
+.danger {
+  color: var(--color-danger);
+}

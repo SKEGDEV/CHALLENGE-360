@@ -1,0 +1,51 @@
+@use '@styles' as *;
+
+.stepper {
+  display: inline-flex;
+  align-items: center;
+  background: var(--color-fill);
+  border-radius: var(--radius-pill);
+  height: 44px;
+  padding: 0 4px;
+
+  &.sm {
+    height: 32px;
+    padding: 0 2px;
+  }
+}
+
+.btn {
+  border: 0;
+  background: transparent;
+  border-radius: var(--radius-circle);
+  display: grid;
+  place-items: center;
+  width: 36px;
+  height: 36px;
+
+  .sm & {
+    width: 28px;
+    height: 28px;
+  }
+
+  &:hover:not(:disabled) {
+    background: var(--color-fill-strong);
+  }
+
+  &:disabled {
+    opacity: 0.3;
+    cursor: not-allowed;
+  }
+}
+
+.value {
+  min-width: 28px;
+  text-align: center;
+  font-size: 15px;
+  font-variant-numeric: tabular-nums;
+
+  .sm & {
+    min-width: 30px;
+    font-size: 14px;
+  }
+}

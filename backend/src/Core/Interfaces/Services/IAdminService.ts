@@ -1,4 +1,6 @@
 import {
+  AdminUserListQuery,
+  AdminUserListResponseData,
   CreateCuponRequest,
   CreateProductRequest,
   CreateProductTypeRequest,
@@ -23,6 +25,7 @@ export interface IAdminService {
 
   generatePresignedUrls(data: PresignedFileRequest): Promise<StandardResponse<PresignedFileResponseData>>;
 
+  getUsers(query: AdminUserListQuery): Promise<StandardResponse<AdminUserListResponseData>>;
   inactivateUser(idUser: number): Promise<StandardResponse<null>>;
 
   createCupon(data: CreateCuponRequest, createdBy: number): Promise<StandardResponse<null>>;

@@ -1,0 +1,88 @@
+@use '@styles' as *;
+
+.page {
+  padding: var(--space-6) 22px var(--space-8);
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: 1.05fr 1fr;
+  gap: var(--space-7);
+  align-items: flex-start;
+
+  @media (max-width: 760px) {
+    grid-template-columns: 1fr;
+  }
+}
+
+.media {
+  width: 100%;
+  max-width: 480px;
+}
+
+.info {
+  display: flex;
+  flex-direction: column;
+}
+
+.category {
+  font-size: 14px;
+  color: var(--color-text-secondary);
+}
+
+.info h1 {
+  font-size: 34px;
+  line-height: 1.1;
+  letter-spacing: -0.035em;
+  margin: 4px 0 6px;
+}
+
+.price {
+  font-size: 19px;
+}
+
+.description {
+  color: var(--color-text-secondary);
+  font-size: 15px;
+  margin: var(--space-4) 0 6px;
+  line-height: 1.5;
+}
+
+.group {
+  margin-top: var(--space-5);
+}
+
+.label {
+  font-size: 14px;
+  font-weight: 600;
+  margin-bottom: var(--space-3);
+
+  span {
+    font-weight: 400;
+    color: var(--color-text-secondary);
+  }
+}
+
+.optionRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}
+
+.status {
+  margin-top: var(--space-4);
+  font-size: 14px;
+  min-height: 21px;
+  color: var(--color-text-secondary);
+}
+
+.buyRow {
+  display: flex;
+  gap: var(--space-3);
+  align-items: center;
+  margin-top: var(--space-2);
+}
+
+.addBtn {
+  flex: 1;
+}
