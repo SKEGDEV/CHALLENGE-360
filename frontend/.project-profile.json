@@ -1,0 +1,10 @@
+{
+  "profileVersion": 1,
+  "name": "frontend",
+  "packageManager": "pnpm",
+  "routing": true,
+  "api": { "enabled": true, "baseUrlEnvVar": "VITE_API_URL" },
+  "globalState": { "enabled": true, "slices": [] },
+  "allowedLayers": ["app", "assets", "components", "core", "hooks", "layouts", "pages", "services", "store", "styles"],
+  "pages": [{ "name": "HomePage", "path": "/" }]
+}

@@ -1,0 +1,137 @@
+:root {
+  --color-bg: #ffffff;
+  --color-bg-secondary: #f5f5f7;
+  --color-card: #ffffff;
+  --color-tile: #f5f5f7;
+  --color-tile-secondary: #ececef;
+
+  --color-text: #1d1d1f;
+  --color-text-secondary: #6e6e73;
+  --color-text-tertiary: #86868b;
+
+  --color-separator: rgba(0, 0, 0, 0.09);
+  --color-separator-strong: rgba(0, 0, 0, 0.16);
+
+  --color-fill: rgba(120, 120, 128, 0.12);
+  --color-fill-strong: rgba(120, 120, 128, 0.2);
+
+  --color-primary: #0071e3;
+  --color-primary-hover: #0077ed;
+  --color-link: #0066cc;
+
+  --color-success: #248a3d;
+  --color-success-bg: rgba(52, 199, 89, 0.14);
+  --color-warning: #c93400;
+  --color-warning-bg: rgba(255, 149, 0, 0.16);
+  --color-danger: #d70015;
+  --color-danger-bg: rgba(255, 59, 48, 0.12);
+
+  --color-glass: rgba(255, 255, 255, 0.72);
+  --color-sidebar: rgba(242, 242, 247, 0.86);
+  --color-segment-active: #ffffff;
+
+  --shadow-sm: 0 2px 12px rgba(0, 0, 0, 0.05);
+  --shadow-lg: 0 30px 80px rgba(0, 0, 0, 0.18);
+  --gradient-wall: radial-gradient(1200px 600px at 10% 0%, #dfe9ff 0%, transparent 60%),
+    radial-gradient(900px 600px at 100% 30%, #fbe3ec 0%, transparent 55%), #f2f2f7;
+
+  --font-family-base: -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'SF Pro Display', 'Helvetica Neue', Helvetica,
+    Arial, sans-serif;
+  --font-size-base: 17px;
+  --line-height-base: 1.47;
+  --letter-spacing-base: -0.022em;
+
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 18px;
+  --radius-xl: 24px;
+  --radius-pill: 980px;
+  --radius-circle: 50%;
+
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 20px;
+  --space-6: 24px;
+  --space-7: 32px;
+  --space-8: 40px;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme='light']) {
+    --color-bg: #000000;
+    --color-bg-secondary: #101011;
+    --color-card: #1c1c1e;
+    --color-tile: #242426;
+    --color-tile-secondary: #1a1a1c;
+
+    --color-text: #f5f5f7;
+    --color-text-secondary: #a1a1a6;
+    --color-text-tertiary: #86868b;
+
+    --color-separator: rgba(255, 255, 255, 0.1);
+    --color-separator-strong: rgba(255, 255, 255, 0.2);
+
+    --color-fill: rgba(120, 120, 128, 0.24);
+    --color-fill-strong: rgba(120, 120, 128, 0.34);
+
+    --color-primary: #0a84ff;
+    --color-primary-hover: #409cff;
+    --color-link: #2997ff;
+
+    --color-success: #30d158;
+    --color-success-bg: rgba(48, 209, 88, 0.16);
+    --color-warning: #ff9f0a;
+    --color-warning-bg: rgba(255, 159, 10, 0.16);
+    --color-danger: #ff453a;
+    --color-danger-bg: rgba(255, 69, 58, 0.16);
+
+    --color-glass: rgba(22, 22, 23, 0.72);
+    --color-sidebar: rgba(36, 36, 38, 0.86);
+    --color-segment-active: #636366;
+
+    --shadow-sm: 0 2px 12px rgba(0, 0, 0, 0.4);
+    --shadow-lg: 0 30px 80px rgba(0, 0, 0, 0.6);
+    --gradient-wall: radial-gradient(1200px 600px at 10% 0%, #13254a 0%, transparent 60%),
+      radial-gradient(900px 600px at 100% 30%, #3a1427 0%, transparent 55%), #0b0b0c;
+  }
+}
+
+:root[data-theme='dark'] {
+  --color-bg: #000000;
+  --color-bg-secondary: #101011;
+  --color-card: #1c1c1e;
+  --color-tile: #242426;
+  --color-tile-secondary: #1a1a1c;
+
+  --color-text: #f5f5f7;
+  --color-text-secondary: #a1a1a6;
+  --color-text-tertiary: #86868b;
+
+  --color-separator: rgba(255, 255, 255, 0.1);
+  --color-separator-strong: rgba(255, 255, 255, 0.2);
+
+  --color-fill: rgba(120, 120, 128, 0.24);
+  --color-fill-strong: rgba(120, 120, 128, 0.34);
+
+  --color-primary: #0a84ff;
+  --color-primary-hover: #409cff;
+  --color-link: #2997ff;
+
+  --color-success: #30d158;
+  --color-success-bg: rgba(48, 209, 88, 0.16);
+  --color-warning: #ff9f0a;
+  --color-warning-bg: rgba(255, 159, 10, 0.16);
+  --color-danger: #ff453a;
+  --color-danger-bg: rgba(255, 69, 58, 0.16);
+
+  --color-glass: rgba(22, 22, 23, 0.72);
+  --color-sidebar: rgba(36, 36, 38, 0.86);
+  --color-segment-active: #636366;
+
+  --shadow-sm: 0 2px 12px rgba(0, 0, 0, 0.4);
+  --shadow-lg: 0 30px 80px rgba(0, 0, 0, 0.6);
+  --gradient-wall: radial-gradient(1200px 600px at 10% 0%, #13254a 0%, transparent 60%),
+    radial-gradient(900px 600px at 100% 30%, #3a1427 0%, transparent 55%), #0b0b0c;
+}

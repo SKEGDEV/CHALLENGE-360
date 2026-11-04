@@ -1,0 +1,139 @@
+{
+  "$schema": "./node_modules/oxlint/configuration_schema.json",
+  "plugins": ["typescript", "unicorn", "oxc", "react"],
+  "categories": {
+    "correctness": "error"
+  },
+  "env": {
+    "builtin": true,
+    "browser": true
+  },
+  "ignorePatterns": ["dist", "src/routeTree.gen.ts"],
+  "rules": {
+    "no-restricted-imports": [
+      "error",
+      {
+        "patterns": [
+          { "group": ["../*", "../../*", "../../../*"], "message": "Use layer aliases (@core, @components...) or ./" },
+          { "group": ["lucide-react"], "message": "Use <Icon name=\"...\" />" },
+          { "group": ["@app/*"], "message": "Import from '@app' (barrel), not deep paths" },
+          { "group": ["@components/*"], "message": "Import from '@components' (barrel), not deep paths" },
+          { "group": ["@core/*"], "message": "Import from '@core' (barrel), not deep paths" },
+          { "group": ["@hooks/*"], "message": "Import from '@hooks' (barrel), not deep paths" },
+          { "group": ["@layouts/*"], "message": "Import from '@layouts' (barrel), not deep paths" },
+          { "group": ["@pages/*"], "message": "Import from '@pages' (barrel), not deep paths" },
+          { "group": ["@services/*"], "message": "Import from '@services' (barrel), not deep paths" },
+          { "group": ["@store/*"], "message": "Import from '@store' (barrel), not deep paths" }
+        ]
+      }
+    ]
+  },
+  "overrides": [
+    {
+      "files": ["src/components/Icon/**"],
+      "rules": {
+        "no-restricted-imports": [
+          "error",
+          {
+            "patterns": [
+              { "group": ["../*", "../../*", "../../../*"], "message": "Use layer aliases (@core, @components...) or ./" },
+              { "group": ["@app/*"], "message": "Import from '@app' (barrel), not deep paths" },
+              { "group": ["@core/*"], "message": "Import from '@core' (barrel), not deep paths" },
+              { "group": ["@hooks/*"], "message": "Import from '@hooks' (barrel), not deep paths" },
+              { "group": ["@layouts/*"], "message": "Import from '@layouts' (barrel), not deep paths" },
+              { "group": ["@pages/*"], "message": "Import from '@pages' (barrel), not deep paths" },
+              { "group": ["@services/*"], "message": "Import from '@services' (barrel), not deep paths" },
+              { "group": ["@store/*"], "message": "Import from '@store' (barrel), not deep paths" }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "files": ["src/components/**"],
+      "excludeFiles": ["src/components/Icon/**"],
+      "rules": {
+        "no-restricted-imports": [
+          "error",
+          {
+            "patterns": [
+              { "group": ["../*", "../../*", "../../../*"], "message": "Use layer aliases (@core, @components...) or ./" },
+              { "group": ["lucide-react"], "message": "Use <Icon name=\"...\" />" },
+              { "group": ["@app/*"], "message": "Import from '@app' (barrel), not deep paths" },
+              { "group": ["@core/*"], "message": "Import from '@core' (barrel), not deep paths" },
+              { "group": ["@hooks/*"], "message": "Import from '@hooks' (barrel), not deep paths" },
+              { "group": ["@layouts/*"], "message": "Import from '@layouts' (barrel), not deep paths" },
+              { "group": ["@pages/*"], "message": "Import from '@pages' (barrel), not deep paths" },
+              { "group": ["@services/*"], "message": "Import from '@services' (barrel), not deep paths" },
+              { "group": ["@store/*"], "message": "Import from '@store' (barrel), not deep paths" },
+              { "group": ["@hooks", "@store", "@services", "@pages", "@layouts", "@app", "@tanstack/*"], "message": "components is pure UI" }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "files": ["src/core/**", "src/services/**", "src/store/**"],
+      "rules": {
+        "no-restricted-imports": [
+          "error",
+          {
+            "patterns": [
+              { "group": ["../*", "../../*", "../../../*"], "message": "Use layer aliases (@core, @components...) or ./" },
+              { "group": ["lucide-react"], "message": "Use <Icon name=\"...\" />" },
+              { "group": ["@app/*"], "message": "Import from '@app' (barrel), not deep paths" },
+              { "group": ["@components/*"], "message": "Import from '@components' (barrel), not deep paths" },
+              { "group": ["@hooks/*"], "message": "Import from '@hooks' (barrel), not deep paths" },
+              { "group": ["@layouts/*"], "message": "Import from '@layouts' (barrel), not deep paths" },
+              { "group": ["@pages/*"], "message": "Import from '@pages' (barrel), not deep paths" },
+              { "group": ["@components", "@pages", "@layouts", "@hooks"], "message": "Dependencies only go downward" }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "files": ["src/hooks/**", "src/layouts/**", "src/pages/**", "src/app/**"],
+      "excludeFiles": ["src/app/router.ts"],
+      "rules": {
+        "no-restricted-imports": [
+          "error",
+          {
+            "patterns": [
+              { "group": ["../*", "../../*", "../../../*"], "message": "Use layer aliases (@core, @components...) or ./" },
+              { "group": ["lucide-react"], "message": "Use <Icon name=\"...\" />" },
+              { "group": ["@app/*"], "message": "Import from '@app' (barrel), not deep paths" },
+              { "group": ["@components/*"], "message": "Import from '@components' (barrel), not deep paths" },
+              { "group": ["@core/*"], "message": "Import from '@core' (barrel), not deep paths" },
+              { "group": ["@hooks/*"], "message": "Import from '@hooks' (barrel), not deep paths" },
+              { "group": ["@layouts/*"], "message": "Import from '@layouts' (barrel), not deep paths" },
+              { "group": ["@pages/*"], "message": "Import from '@pages' (barrel), not deep paths" },
+              { "group": ["@services/*"], "message": "Import from '@services' (barrel), not deep paths" },
+              { "group": ["@store/*"], "message": "Import from '@store' (barrel), not deep paths" }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "files": ["src/app/router.ts"],
+      "rules": {
+        "no-restricted-imports": [
+          "error",
+          {
+            "patterns": [
+              { "group": ["lucide-react"], "message": "Use <Icon name=\"...\" />" },
+              { "group": ["@components/*"], "message": "Import from '@components' (barrel), not deep paths" },
+              { "group": ["@core/*"], "message": "Import from '@core' (barrel), not deep paths" },
+              { "group": ["@hooks/*"], "message": "Import from '@hooks' (barrel), not deep paths" },
+              { "group": ["@layouts/*"], "message": "Import from '@layouts' (barrel), not deep paths" },
+              { "group": ["@pages/*"], "message": "Import from '@pages' (barrel), not deep paths" },
+              { "group": ["@services/*"], "message": "Import from '@services' (barrel), not deep paths" },
+              { "group": ["@store/*"], "message": "Import from '@store' (barrel), not deep paths" }
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}
