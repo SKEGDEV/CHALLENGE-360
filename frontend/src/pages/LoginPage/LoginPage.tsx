@@ -16,8 +16,8 @@ export function LoginPage() {
           <Input
             type="email"
             icon="mail"
-            placeholder="Correo electronico"
-            aria-label="Correo electronico"
+            label="Correo electronico"
+            placeholder="Ej. juan.perez@correo.com"
             autoComplete="username"
             value={userEmail}
             onChange={(event) => setUserEmail(event.target.value)}
@@ -25,8 +25,8 @@ export function LoginPage() {
           <Input
             type="password"
             icon="lock"
-            placeholder="Contrasenia"
-            aria-label="Contrasenia"
+            label="Contrasenia"
+            placeholder="Tu contrasenia"
             autoComplete="current-password"
             value={userPassword}
             onChange={(event) => setUserPassword(event.target.value)}

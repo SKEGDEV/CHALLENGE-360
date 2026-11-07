@@ -83,12 +83,14 @@ export function AdminProductTypesPage() {
         <div className={styles.form}>
           <Input
             label="Nombre"
+            placeholder="Ej. Camisas"
             value={form.productTypeName}
             onChange={(event) => updateForm({ productTypeName: event.target.value })}
             error={fieldErrors.productTypeName}
           />
           <Textarea
             label="Descripcion"
+            placeholder="Ej. Prendas superiores de manga larga o corta"
             value={form.productTypeDescription}
             onChange={(event) => updateForm({ productTypeDescription: event.target.value })}
             error={fieldErrors.productTypeDescription}

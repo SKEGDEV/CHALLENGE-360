@@ -35,6 +35,7 @@ export function CuponForm({ editingId, detail, cuponTypes, productTypes, onSaved
       </Select>
       <Input
         label="Codigo"
+        placeholder="Ej. BIENVENIDA10"
         value={form.cuponCode}
         onChange={(event) => updateForm({ cuponCode: event.target.value })}
         error={fieldErrors.cuponCode}
@@ -67,6 +68,7 @@ export function CuponForm({ editingId, detail, cuponTypes, productTypes, onSaved
       <Input
         label="Fecha de expiracion"
         type="datetime-local"
+        placeholder="dd/mm/aaaa --:--"
         value={form.cuponExpiration}
         onChange={(event) => updateForm({ cuponExpiration: event.target.value })}
         error={fieldErrors.cuponExpiration}

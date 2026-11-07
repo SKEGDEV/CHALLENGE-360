@@ -43,7 +43,8 @@ export function AdminUsersPage() {
       <div className={styles.toolbar}>
         <Input
           icon="search"
-          placeholder="Buscar por nombre o correo..."
+          label="Buscar usuario"
+          placeholder="Ej. Juan Perez"
           value={search}
           onChange={(event) => setSearch(event.target.value)}
         />
@@ -121,12 +122,14 @@ export function AdminUsersPage() {
         <div className={styles.form}>
           <Input
             label="Nombre"
+            placeholder="Ej. Juan"
             value={form.userFirstName}
             onChange={(event) => updateForm({ userFirstName: event.target.value })}
             error={fieldErrors.userFirstName}
           />
           <Input
             label="Apellido"
+            placeholder="Ej. Perez"
             value={form.userLastName}
             onChange={(event) => updateForm({ userLastName: event.target.value })}
             error={fieldErrors.userLastName}
@@ -134,6 +137,7 @@ export function AdminUsersPage() {
           <Input
             label="Correo"
             type="email"
+            placeholder="Ej. juan.perez@correo.com"
             value={form.userEmail}
             onChange={(event) => updateForm({ userEmail: event.target.value })}
             error={fieldErrors.userEmail}
@@ -141,6 +145,7 @@ export function AdminUsersPage() {
           <Input
             label="Contrasena"
             type="password"
+            placeholder="Minimo 8 caracteres"
             value={form.userPassword}
             onChange={(event) => updateForm({ userPassword: event.target.value })}
             error={fieldErrors.userPassword}
@@ -148,6 +153,7 @@ export function AdminUsersPage() {
           <Input
             label="Fecha de nacimiento"
             type="date"
+            placeholder="dd/mm/aaaa"
             value={form.userBirthday}
             onChange={(event) => updateForm({ userBirthday: event.target.value })}
             error={fieldErrors.userBirthday}

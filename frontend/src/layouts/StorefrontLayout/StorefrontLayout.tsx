@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Link, Outlet } from '@tanstack/react-router';
+import { Link, Outlet, useNavigate } from '@tanstack/react-router';
 import { Container, Icon, IconButton, ToastProvider } from '@components';
 import { useAuth, useCart } from '@store';
 import { CartDrawer } from './CartDrawer';
@@ -8,8 +8,15 @@ import styles from './StorefrontLayout.module.scss';
 export function StorefrontLayout() {
   const auth = useAuth();
   const cart = useCart();
+  const navigate = useNavigate();
   const [isCartOpen, setCartOpen] = useState(false);
   const [isMenuOpen, setMenuOpen] = useState(false);
+
+  const onLogout = () => {
+    auth.logout();
+    setMenuOpen(false);
+    void navigate({ to: '/' });
+  };
 
   const roleLabel = auth.hasRole('ADPRU')
     ? 'Administrador'
@@ -58,14 +65,7 @@ export function StorefrontLayout() {
                       <Icon name="package" size="sm" />
                       Mis pedidos
                     </Link>
-                    <button
-                      type="button"
-                      className={styles.menuItem}
-                      onClick={() => {
-                        auth.logout();
-                        setMenuOpen(false);
-                      }}
-                    >
+                    <button type="button" className={styles.menuItem} onClick={onLogout}>
                       <Icon name="log-out" size="sm" />
                       Cerrar sesion
                     </button>

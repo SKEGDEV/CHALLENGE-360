@@ -41,13 +41,13 @@ export function CheckoutPage() {
         <form onSubmit={onSubmit} noValidate className={styles.form}>
           <Input
             label="Direccion"
-            placeholder="Calle, numero, colonia"
+            placeholder="Ej. Av. Insurgentes Sur 123, Col. Roma"
             value={addressLine1}
             onChange={(event) => setAddressLine1(event.target.value)}
           />
           <Input
             label="Direccion 2 (opcional)"
-            placeholder="Referencia, apartamento"
+            placeholder="Ej. Depto. 4B, entre calles X y Y"
             value={addressLine2}
             onChange={(event) => setAddressLine2(event.target.value)}
           />

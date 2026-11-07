@@ -12,3 +12,4 @@ export * from './ProductImage';
 export * from './Table';
 export * from './Pagination';
 export * from './Textarea';
+export * from './ColorPicker';

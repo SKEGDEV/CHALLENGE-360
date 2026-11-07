@@ -1,10 +1,10 @@
 import { useState } from 'react';
+import { ApiError } from '@core';
 import { useCatalogQuery } from '@hooks';
 import { useShipmentListQuery } from './operator.queries';
 import { useUpdateShipmentStatus } from './operator.mutations';
 
 const SHIPMENTS_PAGE_SIZE = 20;
-const WAITING_FOR_GUIDE_STATUS = 'A la espera de guia';
 
 export function useOperatorShipmentsPage() {
   const [pageNumber, setPageNumber] = useState(1);
@@ -21,19 +21,28 @@ export function useOperatorShipmentsPage() {
 
   const updateShipmentStatus = useUpdateShipmentStatus();
   const [guideDrafts, setGuideDrafts] = useState<Record<string, string>>({});
+  const [advanceError, setAdvanceError] = useState<string | null>(null);
 
   const setGuideDraft = (invoiceNumber: string, value: string) => {
     setGuideDrafts((prev) => ({ ...prev, [invoiceNumber]: value }));
   };
 
-  const advance = (invoiceNumber: string, currentStatusName: string) => {
-    const requiresGuide = currentStatusName === WAITING_FOR_GUIDE_STATUS;
+  const advance = (invoiceNumber: string, hasGuideAlready: boolean) => {
+    setAdvanceError(null);
     const deliveryGuide = guideDrafts[invoiceNumber]?.trim();
-    if (requiresGuide && !deliveryGuide) return;
+    if (!hasGuideAlready && !deliveryGuide) {
+      setAdvanceError('Ingresa el numero de guia antes de avanzar el estado.');
+      return;
+    }
 
     updateShipmentStatus.mutate(
-      { invoiceNumber, deliveryGuide: deliveryGuide || undefined },
-      { onSuccess: () => setGuideDraft(invoiceNumber, '') },
+      { invoiceNumber, deliveryGuide: hasGuideAlready ? undefined : deliveryGuide },
+      {
+        onSuccess: () => setGuideDraft(invoiceNumber, ''),
+        onError: (error) => {
+          setAdvanceError(error instanceof ApiError ? error.message : 'No se pudo avanzar el estado del envio.');
+        },
+      },
     );
   };
 
@@ -56,6 +65,6 @@ export function useOperatorShipmentsPage() {
     setGuideDraft,
     advance,
     isAdvancing: updateShipmentStatus.isPending,
-    requiresGuide: (statusName: string) => statusName === WAITING_FOR_GUIDE_STATUS,
+    advanceError,
   };
 }

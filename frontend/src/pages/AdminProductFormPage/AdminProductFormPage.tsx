@@ -94,6 +94,7 @@ function ProductFormContent({ idProduct, isEditMode, detail, productTypes }: Pro
           </Select>
           <Input
             label="Nombre del producto"
+            placeholder="Ej. Camisa de lino manga larga"
             value={productName}
             onChange={(event) => setProductName(event.target.value)}
             error={fieldErrors.productName}
@@ -101,6 +102,7 @@ function ProductFormContent({ idProduct, isEditMode, detail, productTypes }: Pro
           {!isEditMode && (
             <Input
               label="Codigo publico"
+              placeholder="Ej. CAM-001"
               value={productPublicCode}
               onChange={(event) => setProductPublicCode(event.target.value)}
               error={fieldErrors.productPublicCode}
@@ -109,6 +111,7 @@ function ProductFormContent({ idProduct, isEditMode, detail, productTypes }: Pro
         </div>
         <Textarea
           label="Descripcion"
+          placeholder="Ej. Camisa 100% algodon, corte regular, ideal para uso diario."
           value={productDescription}
           onChange={(event) => setProductDescription(event.target.value)}
           error={fieldErrors.productDescription}

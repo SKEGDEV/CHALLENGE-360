@@ -24,15 +24,15 @@ export function RegisterPage() {
         <form onSubmit={onSubmit} noValidate className={styles.form}>
           <div className={styles.row2}>
             <Input
-              placeholder="Nombre"
-              aria-label="Nombre"
+              label="Nombre"
+              placeholder="Ej. Juan"
               autoComplete="given-name"
               value={form.userFirstName}
               onChange={(event) => setField('userFirstName')(event.target.value)}
             />
             <Input
-              placeholder="Apellidos"
-              aria-label="Apellidos"
+              label="Apellidos"
+              placeholder="Ej. Perez Garcia"
               autoComplete="family-name"
               value={form.userLastName}
               onChange={(event) => setField('userLastName')(event.target.value)}
@@ -41,8 +41,8 @@ export function RegisterPage() {
           <Input
             type="email"
             icon="mail"
-            placeholder="Correo electronico"
-            aria-label="Correo electronico"
+            label="Correo electronico"
+            placeholder="Ej. juan.perez@correo.com"
             autoComplete="email"
             value={form.userEmail}
             onChange={(event) => setField('userEmail')(event.target.value)}
@@ -50,15 +50,15 @@ export function RegisterPage() {
           <Input
             type="date"
             label="Fecha de nacimiento"
-            aria-label="Fecha de nacimiento"
+            placeholder="dd/mm/aaaa"
             value={form.userBirthday}
             onChange={(event) => setField('userBirthday')(event.target.value)}
           />
           <Input
             type="password"
             icon="lock"
-            placeholder="Contrasenia"
-            aria-label="Contrasenia"
+            label="Contrasenia"
+            placeholder="Minimo 8 caracteres"
             autoComplete="new-password"
             value={form.userPassword}
             onChange={(event) => setField('userPassword')(event.target.value)}
@@ -66,8 +66,8 @@ export function RegisterPage() {
           <Input
             type="password"
             icon="lock"
-            placeholder="Confirma la contrasenia"
-            aria-label="Confirma la contrasenia"
+            label="Confirma la contrasenia"
+            placeholder="Repite la contrasenia"
             autoComplete="new-password"
             value={form.confirmPassword}
             onChange={(event) => setField('confirmPassword')(event.target.value)}

@@ -44,7 +44,8 @@ export function AdminProductsPage() {
       <div className={styles.toolbar}>
         <Input
           icon="search"
-          placeholder="Buscar por nombre..."
+          label="Buscar producto"
+          placeholder="Ej. Camisa de lino"
           value={search}
           onChange={(event) => setSearch(event.target.value)}
         />

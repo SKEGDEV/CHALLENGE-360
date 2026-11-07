@@ -1,5 +1,5 @@
 import { useRef } from 'react';
-import { Button, Checkbox, IconButton, Input, Spinner } from '@components';
+import { Button, Checkbox, ColorPicker, IconButton, Input, Spinner } from '@components';
 import type { VariantFormValue } from '@hooks';
 import styles from './VariantEditor.module.scss';
 
@@ -41,6 +41,7 @@ export function VariantEditor({
         <div className={styles.skuField}>
           <Input
             label="SKU"
+            placeholder="Ej. CAM-ROJ-M-4F2A"
             value={variant.sku}
             onChange={(event) => onChange({ sku: event.target.value })}
             error={fieldErrors[`variant-${index}-sku`]}
@@ -49,8 +50,13 @@ export function VariantEditor({
             Autogenerar
           </Button>
         </div>
-        <Input label="Color" value={variant.color} onChange={(event) => onChange({ color: event.target.value })} />
-        <Input label="Talla" value={variant.size} onChange={(event) => onChange({ size: event.target.value })} />
+        <ColorPicker label="Color" value={variant.color} onChange={(hex) => onChange({ color: hex })} />
+        <Input
+          label="Talla"
+          placeholder="Ej. M, L, 42"
+          value={variant.size}
+          onChange={(event) => onChange({ size: event.target.value })}
+        />
       </div>
 
       <div className={styles.row}>
@@ -59,6 +65,7 @@ export function VariantEditor({
           type="number"
           min="0"
           step="0.01"
+          placeholder="Ej. 299.99"
           value={variant.price}
           onChange={(event) => onChange({ price: event.target.value })}
           error={fieldErrors[`variant-${index}-price`]}
@@ -68,12 +75,14 @@ export function VariantEditor({
           type="number"
           min="0"
           step="1"
+          placeholder="Ej. 25"
           value={variant.quantity}
           onChange={(event) => onChange({ quantity: event.target.value })}
           error={fieldErrors[`variant-${index}-quantity`]}
         />
         <Input
           label="Caracteristicas (opcional)"
+          placeholder="Ej. Algodon 100%, manga larga"
           value={variant.features}
           onChange={(event) => onChange({ features: event.target.value })}
         />

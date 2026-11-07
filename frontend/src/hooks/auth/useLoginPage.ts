@@ -1,7 +1,15 @@
 import { useState, type FormEvent } from 'react';
 import { useNavigate } from '@tanstack/react-router';
-import { ApiError } from '@core';
+import { ApiError, decodeJwtPayload } from '@core';
+import type { JwtClaims, LoginResult } from '@services';
 import { useLogin } from './auth.mutations';
+
+function homeRouteForSession(session: LoginResult): '/' | '/admin' | '/operator' {
+  const roles = decodeJwtPayload<JwtClaims>(session.accessToken)?.roles ?? [];
+  if (roles.includes('ADPRU')) return '/admin';
+  if (roles.includes('OPPRU')) return '/operator';
+  return '/';
+}
 
 export function useLoginPage() {
   const [userEmail, setUserEmail] = useState('');
@@ -22,7 +30,7 @@ export function useLoginPage() {
     login.mutate(
       { userEmail, userPassword },
       {
-        onSuccess: () => void navigate({ to: '/' }),
+        onSuccess: (session) => void navigate({ to: homeRouteForSession(session) }),
         onError: (error) => {
           setErrorMessage(error instanceof ApiError ? error.message : 'No se pudo iniciar sesion.');
         },

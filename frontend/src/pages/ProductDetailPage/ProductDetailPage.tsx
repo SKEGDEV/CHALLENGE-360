@@ -1,5 +1,6 @@
 import { useMemo, useState } from 'react';
-import { formatMoney } from '@core';
+import clsx from 'clsx';
+import { formatMoney, isValidHexColor } from '@core';
 import { Button, Chip, Container, ErrorState, ProductImage, Spinner, Stepper, useToast } from '@components';
 import { useProductDetailPage } from '@hooks';
 import { useCart } from '@store';
@@ -114,13 +115,19 @@ export function ProductDetailPage({ idProduct }: ProductDetailPageProps) {
           {colors.length > 0 && (
             <div className={styles.group}>
               <p className={styles.label}>
-                Color {selectedColor && <span>{selectedColor}</span>}
+                Color {selectedColor && <span>{selectedColor.toUpperCase()}</span>}
               </p>
               <div className={styles.optionRow}>
                 {colors.map((color) => (
-                  <Chip key={color} selected={selectedColor === color} onClick={() => setColorOverride(color)}>
-                    {color}
-                  </Chip>
+                  <button
+                    key={color}
+                    type="button"
+                    className={clsx(styles.swatch, selectedColor === color && styles.swatchSelected)}
+                    style={{ backgroundColor: isValidHexColor(color) ? color : undefined }}
+                    aria-label={`Color ${color}`}
+                    aria-pressed={selectedColor === color}
+                    onClick={() => setColorOverride(color)}
+                  />
                 ))}
               </div>
             </div>

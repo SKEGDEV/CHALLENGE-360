@@ -19,7 +19,7 @@ export function OperatorShipmentsPage() {
     setGuideDraft,
     advance,
     isAdvancing,
-    requiresGuide,
+    advanceError,
   } = useOperatorShipmentsPage();
 
   return (
@@ -39,6 +39,8 @@ export function OperatorShipmentsPage() {
           ))}
         </Select>
       </div>
+
+      {advanceError && <p className={styles.advanceError}>{advanceError}</p>}
 
       {isLoading ? (
         <Spinner />
@@ -64,15 +66,22 @@ export function OperatorShipmentsPage() {
                     <span className={styles.delivered}>Entregado</span>
                   ) : (
                     <div className={styles.advanceRow}>
-                      {requiresGuide(row.shipmentStatusName) && (
+                      {!row.shippmentGuide && (
                         <Input
-                          placeholder="No. de guia"
+                          label="Numero de guia"
+                          placeholder="Ej. 1Z999AA10123456784"
                           className={styles.guideInput}
                           value={guideDrafts[row.invoiceNumber] ?? ''}
                           onChange={(event) => setGuideDraft(row.invoiceNumber, event.target.value)}
                         />
                       )}
-                      <Button type="button" variant="secondary" size="sm" disabled={isAdvancing} onClick={() => advance(row.invoiceNumber, row.shipmentStatusName)}>
+                      <Button
+                        type="button"
+                        variant="secondary"
+                        size="sm"
+                        disabled={isAdvancing}
+                        onClick={() => advance(row.invoiceNumber, Boolean(row.shippmentGuide))}
+                      >
                         Avanzar estado
                       </Button>
                     </div>

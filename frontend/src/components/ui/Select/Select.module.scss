@@ -14,12 +14,18 @@
 .field {
   width: 100%;
   background: var(--color-fill);
+  color: var(--color-text);
   border: 1px solid transparent;
   border-radius: 10px;
   padding: 9px 32px 9px 12px;
   font-size: 15px;
   outline: none;
   appearance: none;
+
+  option {
+    color: var(--color-text);
+    background: var(--color-card);
+  }
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%2386868b' stroke-width='1.6' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
   background-repeat: no-repeat;
   background-position: right 12px center;

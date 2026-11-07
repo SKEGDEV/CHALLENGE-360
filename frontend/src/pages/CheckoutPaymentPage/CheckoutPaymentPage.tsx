@@ -45,6 +45,7 @@ export function CheckoutPaymentPage({ idInvoice }: CheckoutPaymentPageProps) {
           />
           <Input
             label="Nombre en la tarjeta"
+            placeholder="Ej. JUAN PEREZ"
             value={cardName}
             error={cardErrors.cardName}
             onChange={(event) => setCardName(event.target.value)}
@@ -70,6 +71,7 @@ export function CheckoutPaymentPage({ idInvoice }: CheckoutPaymentPageProps) {
           <Input
             icon="ticket"
             label="Codigo de cupon (opcional)"
+            placeholder="Ej. BIENVENIDA10"
             value={cuponCode}
             onChange={(event) => setCuponCode(event.target.value)}
           />

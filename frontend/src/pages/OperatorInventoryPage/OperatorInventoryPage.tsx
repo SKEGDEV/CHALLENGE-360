@@ -31,7 +31,13 @@ export function OperatorInventoryPage() {
       <h1>Inventario</h1>
 
       <div className={styles.toolbar}>
-        <Input icon="search" placeholder="Buscar producto..." value={search} onChange={(event) => setSearch(event.target.value)} />
+        <Input
+          icon="search"
+          label="Buscar producto"
+          placeholder="Ej. Camisa de lino"
+          value={search}
+          onChange={(event) => setSearch(event.target.value)}
+        />
       </div>
 
       {isLoading ? (
