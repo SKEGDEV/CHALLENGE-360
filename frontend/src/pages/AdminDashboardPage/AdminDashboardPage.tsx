@@ -27,7 +27,7 @@ export function AdminDashboardPage() {
 
       <div className={styles.grid}>
         <section className={styles.card}>
-          <h2>Variantes mas vendidas</h2>
+          <h2>Variantes más vendidas</h2>
           <Table
             rowKey={(row) => row.idVariant}
             columns={[
@@ -53,11 +53,11 @@ export function AdminDashboardPage() {
         </section>
 
         <section className={styles.card}>
-          <h2>Categorias top</h2>
+          <h2>Categorías top</h2>
           <Table
             rowKey={(row) => row.idProductType}
             columns={[
-              { key: 'category', header: 'Categoria', render: (row) => row.productTypeName },
+              { key: 'category', header: 'Categoría', render: (row) => row.productTypeName },
               { key: 'qty', header: 'Unidades vendidas', render: (row) => row.totalQuantitySold },
             ]}
             rows={dashboard.topCategories}
@@ -65,7 +65,7 @@ export function AdminDashboardPage() {
         </section>
 
         <section className={styles.card}>
-          <h2>Notificaciones de envio recientes</h2>
+          <h2>Notificaciones de envío recientes</h2>
           <Table
             rowKey={(row) => `${row.invoiceNumber}-${row.notifiedAt}`}
             columns={[

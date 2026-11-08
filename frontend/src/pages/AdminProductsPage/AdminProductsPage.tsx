@@ -72,7 +72,7 @@ export function AdminProductsPage() {
                   </div>
                 ),
               },
-              { key: 'category', header: 'Categoria', render: (row) => row.productTypeName },
+              { key: 'category', header: 'Categoría', render: (row) => row.productTypeName },
               { key: 'price', header: 'Precio', render: (row) => priceRange(row) },
               { key: 'variants', header: 'Variantes', render: (row) => row.variants.length },
               { key: 'stock', header: 'Stock', render: (row) => totalStock(row) },

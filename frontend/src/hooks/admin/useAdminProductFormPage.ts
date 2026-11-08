@@ -148,7 +148,7 @@ export function useProductFormState(idProduct: number | null, detail: ProductDet
       await Promise.all(
         fileList.map((file, i) => {
           const match = presigned.filesUrl.find((entry) => entry.fileKey === fileKeys[i]);
-          if (!match) throw new Error('No se recibio la URL prefirmada para una de las imagenes.');
+          if (!match) throw new Error('No se recibió la URL prefirmada para una de las imágenes.');
           return uploadFileToS3(match.filePresignedUrl, file);
         }),
       );
@@ -166,7 +166,7 @@ export function useProductFormState(idProduct: number | null, detail: ProductDet
     } catch (error) {
       updateVariant(index, {
         isUploading: false,
-        uploadError: error instanceof Error ? error.message : 'No se pudieron subir las imagenes.',
+        uploadError: error instanceof Error ? error.message : 'No se pudieron subir las imágenes.',
       });
     }
   };
@@ -181,18 +181,18 @@ export function useProductFormState(idProduct: number | null, detail: ProductDet
 
   function validate(): boolean {
     const errors: Record<string, string> = {};
-    if (!idProductType) errors.idProductType = 'Selecciona una categoria.';
+    if (!idProductType) errors.idProductType = 'Selecciona una categoría.';
     if (!productName.trim()) errors.productName = 'Ingresa el nombre del producto.';
-    if (!productDescription.trim()) errors.productDescription = 'Ingresa una descripcion.';
-    if (!isEditMode && !productPublicCode.trim()) errors.productPublicCode = 'Ingresa el codigo publico del producto.';
+    if (!productDescription.trim()) errors.productDescription = 'Ingresa una descripción.';
+    if (!isEditMode && !productPublicCode.trim()) errors.productPublicCode = 'Ingresa el código público del producto.';
     if (variants.length === 0) errors.variants = 'Agrega al menos una variante.';
 
     variants.forEach((variant, index) => {
       if (!variant.sku.trim()) errors[`variant-${index}-sku`] = 'Ingresa o autogenera el SKU.';
-      if (!variant.price.trim() || Number(variant.price) <= 0) errors[`variant-${index}-price`] = 'Ingresa un precio valido.';
+      if (!variant.price.trim() || Number(variant.price) <= 0) errors[`variant-${index}-price`] = 'Ingresa un precio válido.';
       if (!variant.quantity.trim() || Number(variant.quantity) < 0)
-        errors[`variant-${index}-quantity`] = 'Ingresa una cantidad valida.';
-      if (variant.photos.length === 0) errors[`variant-${index}-photos`] = 'Sube al menos una fotografia.';
+        errors[`variant-${index}-quantity`] = 'Ingresa una cantidad válida.';
+      if (variant.photos.length === 0) errors[`variant-${index}-photos`] = 'Sube al menos una fotografía.';
     });
 
     setFieldErrors(errors);

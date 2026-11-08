@@ -61,14 +61,14 @@ export function useCuponForm(editingId: number | null, detail: CuponDetail | nul
 
   function validate(): boolean {
     const errors: Record<string, string> = {};
-    if (!form.idCuponType) errors.idCuponType = 'Selecciona un tipo de cupon.';
-    if (!form.cuponCode.trim()) errors.cuponCode = 'Ingresa el codigo del cupon.';
-    if (!form.limitUseTotal.trim() || Number(form.limitUseTotal) <= 0) errors.limitUseTotal = 'Ingresa un limite total valido.';
+    if (!form.idCuponType) errors.idCuponType = 'Selecciona un tipo de cupón.';
+    if (!form.cuponCode.trim()) errors.cuponCode = 'Ingresa el código del cupón.';
+    if (!form.limitUseTotal.trim() || Number(form.limitUseTotal) <= 0) errors.limitUseTotal = 'Ingresa un límite total válido.';
     if (!form.limitUsePerClient.trim() || Number(form.limitUsePerClient) <= 0)
-      errors.limitUsePerClient = 'Ingresa un limite por cliente valido.';
-    if (!form.cuponValue.trim() || Number(form.cuponValue) <= 0) errors.cuponValue = 'Ingresa un valor valido.';
-    if (!form.cuponExpiration) errors.cuponExpiration = 'Selecciona la fecha de expiracion.';
-    if (form.isPerCategory && form.categoryIds.length === 0) errors.categoryIds = 'Selecciona al menos una categoria.';
+      errors.limitUsePerClient = 'Ingresa un límite por cliente válido.';
+    if (!form.cuponValue.trim() || Number(form.cuponValue) <= 0) errors.cuponValue = 'Ingresa un valor válido.';
+    if (!form.cuponExpiration) errors.cuponExpiration = 'Selecciona la fecha de expiración.';
+    if (form.isPerCategory && form.categoryIds.length === 0) errors.categoryIds = 'Selecciona al menos una categoría.';
     setFieldErrors(errors);
     return Object.keys(errors).length === 0;
   }
@@ -90,7 +90,7 @@ export function useCuponForm(editingId: number | null, detail: CuponDetail | nul
 
     const callbacks = {
       onSuccess: onSaved,
-      onError: (err: unknown) => setFormError(err instanceof ApiError ? err.message : 'No se pudo guardar el cupon.'),
+      onError: (err: unknown) => setFormError(err instanceof ApiError ? err.message : 'No se pudo guardar el cupón.'),
     };
 
     if (editingId) {

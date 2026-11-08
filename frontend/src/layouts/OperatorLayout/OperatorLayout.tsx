@@ -7,7 +7,7 @@ import styles from './OperatorLayout.module.scss';
 const NAV_ITEMS = [
   { to: '/operator', label: 'Resumen', icon: 'layout-dashboard' as const },
   { to: '/operator/inventory', label: 'Inventario', icon: 'boxes' as const },
-  { to: '/operator/shipments', label: 'Envios', icon: 'truck' as const },
+  { to: '/operator/shipments', label: 'Envíos', icon: 'truck' as const },
 ];
 
 export function OperatorLayout() {
@@ -27,7 +27,7 @@ export function OperatorLayout() {
           <Icon name="shopping-bag" />
           Tienda
         </Link>
-        <IconButton icon="menu" label="Abrir menu" onClick={() => setMenuOpen(true)} />
+        <IconButton icon="menu" label="Abrir menú" onClick={() => setMenuOpen(true)} />
       </header>
 
       <aside className={styles.sidebar}>
@@ -50,11 +50,11 @@ export function OperatorLayout() {
           ))}
         </nav>
         <div className={styles.sidebarFooter}>
-          <IconButton icon="log-out" label="Cerrar sesion" onClick={onLogout} />
+          <IconButton icon="log-out" label="Cerrar sesión" onClick={onLogout} />
         </div>
       </aside>
 
-      <Drawer open={isMenuOpen} onClose={() => setMenuOpen(false)} title="Menu">
+      <Drawer open={isMenuOpen} onClose={() => setMenuOpen(false)} title="Menú">
         <nav className={styles.drawerNav}>
           {NAV_ITEMS.map((item) => (
             <Link

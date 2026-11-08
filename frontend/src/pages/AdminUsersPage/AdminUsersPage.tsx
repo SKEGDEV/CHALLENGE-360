@@ -44,7 +44,7 @@ export function AdminUsersPage() {
         <Input
           icon="search"
           label="Buscar usuario"
-          placeholder="Ej. Juan Perez"
+          placeholder="Ej. Juan Pérez"
           value={search}
           onChange={(event) => setSearch(event.target.value)}
         />
@@ -129,7 +129,7 @@ export function AdminUsersPage() {
           />
           <Input
             label="Apellido"
-            placeholder="Ej. Perez"
+            placeholder="Ej. Pérez"
             value={form.userLastName}
             onChange={(event) => updateForm({ userLastName: event.target.value })}
             error={fieldErrors.userLastName}
@@ -143,9 +143,9 @@ export function AdminUsersPage() {
             error={fieldErrors.userEmail}
           />
           <Input
-            label="Contrasena"
+            label="Contraseña"
             type="password"
-            placeholder="Minimo 8 caracteres"
+            placeholder="Mínimo 8 caracteres"
             value={form.userPassword}
             onChange={(event) => updateForm({ userPassword: event.target.value })}
             error={fieldErrors.userPassword}

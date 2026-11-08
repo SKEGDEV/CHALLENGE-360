@@ -80,12 +80,12 @@ function ProductFormContent({ idProduct, isEditMode, detail, productTypes }: Pro
       <div className={styles.section}>
         <div className={styles.row}>
           <Select
-            label="Categoria"
+            label="Categoría"
             value={idProductType ?? ''}
             onChange={(event) => setIdProductType(event.target.value ? Number(event.target.value) : null)}
             error={fieldErrors.idProductType}
           >
-            <option value="">Selecciona una categoria</option>
+            <option value="">Selecciona una categoría</option>
             {productTypes.map((type) => (
               <option key={type.id} value={type.id}>
                 {type.name}
@@ -94,15 +94,15 @@ function ProductFormContent({ idProduct, isEditMode, detail, productTypes }: Pro
           </Select>
           <Input
             label="Nombre del producto"
-            placeholder="Ej. Camisa de lino manga larga"
+            placeholder="Ej. Lentes de sol Aviador Clásico"
             value={productName}
             onChange={(event) => setProductName(event.target.value)}
             error={fieldErrors.productName}
           />
           {!isEditMode && (
             <Input
-              label="Codigo publico"
-              placeholder="Ej. CAM-001"
+              label="Código público"
+              placeholder="Ej. LEN-001"
               value={productPublicCode}
               onChange={(event) => setProductPublicCode(event.target.value)}
               error={fieldErrors.productPublicCode}
@@ -110,8 +110,8 @@ function ProductFormContent({ idProduct, isEditMode, detail, productTypes }: Pro
           )}
         </div>
         <Textarea
-          label="Descripcion"
-          placeholder="Ej. Camisa 100% algodon, corte regular, ideal para uso diario."
+          label="Descripción"
+          placeholder="Ej. Armazón de acetato premium, lentes polarizados, ideal para uso diario."
           value={productDescription}
           onChange={(event) => setProductDescription(event.target.value)}
           error={fieldErrors.productDescription}

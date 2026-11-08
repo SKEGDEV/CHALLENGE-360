@@ -40,8 +40,8 @@ export function CartDrawer({ open, onClose }: CartDrawerProps) {
       {cart.items.length === 0 ? (
         <EmptyState
           icon="shopping-bag"
-          title="Tu bolsa esta vacia."
-          description="Elige una prenda, selecciona talla y color, y agregala aqui."
+          title="Tu bolsa está vacía."
+          description="Elige un modelo, selecciona medida y color, y agrégalo aquí."
         />
       ) : (
         cart.items.map((item) => (

@@ -31,7 +31,7 @@ export function AdminCuponsPage() {
       <div className={styles.header}>
         <h1>Cupones</h1>
         <Button type="button" onClick={openCreate}>
-          Nuevo cupon
+          Nuevo cupón
         </Button>
       </div>
 
@@ -40,32 +40,32 @@ export function AdminCuponsPage() {
       ) : isError ? (
         <ErrorState description={errorMessage ?? 'No se pudieron cargar los cupones.'} onRetry={onRetry} />
       ) : cupones.length === 0 ? (
-        <EmptyState icon="ticket" title="No hay cupones." description="Crea un cupon de descuento para tus clientes." />
+        <EmptyState icon="ticket" title="No hay cupones." description="Crea un cupón de descuento para tus clientes." />
       ) : (
         <>
           <Table
             rowKey={(row) => row.idCupon}
             columns={[
-              { key: 'code', header: 'Codigo', render: (row) => row.cuponCode },
+              { key: 'code', header: 'Código', render: (row) => row.cuponCode },
               { key: 'value', header: 'Valor', render: (row) => formatMoney(row.cuponValue) },
               { key: 'limitTotal', header: 'Usos totales', render: (row) => row.limitUseTotal },
               { key: 'limitClient', header: 'Usos por cliente', render: (row) => row.limitUsePerClient },
               { key: 'expiration', header: 'Expira', render: (row) => new Date(row.cuponExpiration).toLocaleDateString() },
-              { key: 'category', header: 'Por categoria', render: (row) => (row.isPerCategory ? 'Si' : 'No') },
+              { key: 'category', header: 'Por categoría', render: (row) => (row.isPerCategory ? 'Sí' : 'No') },
               {
                 key: 'actions',
                 header: '',
                 render: (row) => (
                   <div className={styles.actions}>
-                    <IconButton icon="pencil" label="Editar cupon" size="sm" onClick={() => openEdit(row.idCupon)} />
+                    <IconButton icon="pencil" label="Editar cupón" size="sm" onClick={() => openEdit(row.idCupon)} />
                     <IconButton
                       icon="trash"
-                      label="Eliminar cupon"
+                      label="Eliminar cupón"
                       size="sm"
                       variant="danger"
                       disabled={deleteCupon.isPending}
                       onClick={() => {
-                        if (confirm(`Eliminar el cupon "${row.cuponCode}"?`)) {
+                        if (confirm(`Eliminar el cupón "${row.cuponCode}"?`)) {
                           deleteCupon.mutate(row.idCupon);
                         }
                       }}
@@ -80,7 +80,7 @@ export function AdminCuponsPage() {
         </>
       )}
 
-      <Drawer open={isFormOpen} onClose={closeForm} title={editingId !== null ? 'Editar cupon' : 'Nuevo cupon'}>
+      <Drawer open={isFormOpen} onClose={closeForm} title={editingId !== null ? 'Editar cupón' : 'Nuevo cupón'}>
         {isDetailLoading ? (
           <Spinner />
         ) : (

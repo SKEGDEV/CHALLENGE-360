@@ -41,7 +41,7 @@ export function VariantEditor({
         <div className={styles.skuField}>
           <Input
             label="SKU"
-            placeholder="Ej. CAM-ROJ-M-4F2A"
+            placeholder="Ej. LEN-NEG-52-4F2A"
             value={variant.sku}
             onChange={(event) => onChange({ sku: event.target.value })}
             error={fieldErrors[`variant-${index}-sku`]}
@@ -81,22 +81,22 @@ export function VariantEditor({
           error={fieldErrors[`variant-${index}-quantity`]}
         />
         <Input
-          label="Caracteristicas (opcional)"
-          placeholder="Ej. Algodon 100%, manga larga"
+          label="Características (opcional)"
+          placeholder="Ej. Acetato, polarizado, protección UV400"
           value={variant.features}
           onChange={(event) => onChange({ features: event.target.value })}
         />
       </div>
 
       <div className={styles.photos}>
-        <p className={styles.photosLabel}>Fotografias</p>
+        <p className={styles.photosLabel}>Fotografías</p>
         <div className={styles.photoGrid}>
           {variant.photos.map((photo, photoIndex) => (
             <div key={photo.idFile ?? photo.s3BucketKey} className={styles.photoItem}>
               <img src={photo.previewUrl} alt={photo.fileName} className={styles.photoImg} />
               <IconButton
                 icon="x"
-                label="Quitar fotografia"
+                label="Quitar fotografía"
                 size="sm"
                 variant="danger"
                 className={styles.photoRemove}

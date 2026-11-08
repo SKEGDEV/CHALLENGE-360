@@ -8,7 +8,7 @@ const NAV_ITEMS = [
   { to: '/admin', label: 'Resumen', icon: 'layout-dashboard' as const },
   { to: '/admin/products', label: 'Productos', icon: 'package' as const },
   { to: '/admin/cupons', label: 'Cupones', icon: 'ticket' as const },
-  { to: '/admin/product-types', label: 'Categorias', icon: 'tag' as const },
+  { to: '/admin/product-types', label: 'Categorías', icon: 'tag' as const },
   { to: '/admin/users', label: 'Usuarios', icon: 'users' as const },
 ];
 
@@ -29,7 +29,7 @@ export function AdminLayout() {
           <Icon name="shopping-bag" />
           Tienda
         </Link>
-        <IconButton icon="menu" label="Abrir menu" onClick={() => setMenuOpen(true)} />
+        <IconButton icon="menu" label="Abrir menú" onClick={() => setMenuOpen(true)} />
       </header>
 
       <aside className={styles.sidebar}>
@@ -52,11 +52,11 @@ export function AdminLayout() {
           ))}
         </nav>
         <div className={styles.sidebarFooter}>
-          <IconButton icon="log-out" label="Cerrar sesion" onClick={onLogout} />
+          <IconButton icon="log-out" label="Cerrar sesión" onClick={onLogout} />
         </div>
       </aside>
 
-      <Drawer open={isMenuOpen} onClose={() => setMenuOpen(false)} title="Menu">
+      <Drawer open={isMenuOpen} onClose={() => setMenuOpen(false)} title="Menú">
         <nav className={styles.drawerNav}>
           {NAV_ITEMS.map((item) => (
             <Link

@@ -33,10 +33,10 @@ export function useCheckoutPaymentPage(idInvoice: number) {
     setErrorMessage(null);
 
     const errors: Record<string, string> = {};
-    if (!isValidCardNumber(cardNumber)) errors.cardNumber = 'Ingresa un numero de tarjeta valido de 16 digitos.';
+    if (!isValidCardNumber(cardNumber)) errors.cardNumber = 'Ingresa un número de tarjeta válido de 16 dígitos.';
     if (!cardName.trim()) errors.cardName = 'Ingresa el nombre tal como aparece en la tarjeta.';
     if (!isValidExpiry(expiry)) errors.expiry = 'Usa el formato MM/AA.';
-    if (!/^\d{3,4}$/.test(cvv)) errors.cvv = 'El CVV debe tener 3 o 4 digitos.';
+    if (!/^\d{3,4}$/.test(cvv)) errors.cvv = 'El CVV debe tener 3 o 4 dígitos.';
     setCardErrors(errors);
     if (Object.keys(errors).length > 0) return;
 

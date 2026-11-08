@@ -21,7 +21,7 @@ export function CuponForm({ editingId, detail, cuponTypes, productTypes, onSaved
   return (
     <div className={styles.form}>
       <Select
-        label="Tipo de cupon"
+        label="Tipo de cupón"
         value={form.idCuponType ?? ''}
         onChange={(event) => updateForm({ idCuponType: event.target.value ? Number(event.target.value) : null })}
         error={fieldErrors.idCuponType}
@@ -34,7 +34,7 @@ export function CuponForm({ editingId, detail, cuponTypes, productTypes, onSaved
         ))}
       </Select>
       <Input
-        label="Codigo"
+        label="Código"
         placeholder="Ej. BIENVENIDA10"
         value={form.cuponCode}
         onChange={(event) => updateForm({ cuponCode: event.target.value })}
@@ -50,7 +50,7 @@ export function CuponForm({ editingId, detail, cuponTypes, productTypes, onSaved
         error={fieldErrors.cuponValue}
       />
       <Input
-        label="Limite de usos totales"
+        label="Límite de usos totales"
         type="number"
         min="1"
         value={form.limitUseTotal}
@@ -58,7 +58,7 @@ export function CuponForm({ editingId, detail, cuponTypes, productTypes, onSaved
         error={fieldErrors.limitUseTotal}
       />
       <Input
-        label="Limite de usos por cliente"
+        label="Límite de usos por cliente"
         type="number"
         min="1"
         value={form.limitUsePerClient}
@@ -66,7 +66,7 @@ export function CuponForm({ editingId, detail, cuponTypes, productTypes, onSaved
         error={fieldErrors.limitUsePerClient}
       />
       <Input
-        label="Fecha de expiracion"
+        label="Fecha de expiración"
         type="datetime-local"
         placeholder="dd/mm/aaaa --:--"
         value={form.cuponExpiration}
@@ -74,7 +74,7 @@ export function CuponForm({ editingId, detail, cuponTypes, productTypes, onSaved
         error={fieldErrors.cuponExpiration}
       />
       <Checkbox
-        label="Aplica solo a categorias especificas"
+        label="Aplica solo a categorías específicas"
         checked={form.isPerCategory}
         onChange={(event) => updateForm({ isPerCategory: event.target.checked })}
       />
@@ -90,7 +90,7 @@ export function CuponForm({ editingId, detail, cuponTypes, productTypes, onSaved
       )}
       {formError && <p className={styles.formError}>{formError}</p>}
       <Button type="button" block disabled={isSaving} onClick={submit}>
-        {isSaving ? 'Guardando...' : 'Guardar cupon'}
+        {isSaving ? 'Guardando...' : 'Guardar cupón'}
       </Button>
     </div>
   );
