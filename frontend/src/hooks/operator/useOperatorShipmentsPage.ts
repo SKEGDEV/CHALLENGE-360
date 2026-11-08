@@ -31,7 +31,7 @@ export function useOperatorShipmentsPage() {
     setAdvanceError(null);
     const deliveryGuide = guideDrafts[invoiceNumber]?.trim();
     if (!hasGuideAlready && !deliveryGuide) {
-      setAdvanceError('Ingresa el numero de guia antes de avanzar el estado.');
+      setAdvanceError('Ingresa el número de guía antes de avanzar el estado.');
       return;
     }
 
@@ -40,7 +40,7 @@ export function useOperatorShipmentsPage() {
       {
         onSuccess: () => setGuideDraft(invoiceNumber, ''),
         onError: (error) => {
-          setAdvanceError(error instanceof ApiError ? error.message : 'No se pudo avanzar el estado del envio.');
+          setAdvanceError(error instanceof ApiError ? error.message : 'No se pudo avanzar el estado del envío.');
         },
       },
     );

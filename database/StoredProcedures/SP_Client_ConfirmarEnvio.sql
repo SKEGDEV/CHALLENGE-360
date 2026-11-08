@@ -51,7 +51,7 @@ BEGIN
       ;THROW 51047, 'CUPON_EXPIRED', 1;
     END
 
-    DECLARE @NoTransicionadaStatus int = (SELECT IDShipmentStatus FROM CatShippmentStatus WHERE ShippmentStatusName = N'No transicionada');
+    DECLARE @NoTransicionadaStatus int = (SELECT IDShippmentStatus FROM CatShippmentStatus WHERE ShippmentStatusName = N'No transicionada');
     DECLARE @UsedTotal int, @UsedByClient int;
 
     SELECT @UsedTotal = COUNT(*)
@@ -69,7 +69,7 @@ BEGIN
   END
 
   UPDATE Invoice
-  SET IDShipmentStatus = (SELECT IDShipmentStatus FROM CatShippmentStatus WHERE ShippmentStatusName = N'A la espera de guia'),
+  SET IDShipmentStatus = (SELECT IDShippmentStatus FROM CatShippmentStatus WHERE ShippmentStatusName = N'A la espera de guia'),
       IDCuponApplied = @IDCupon
   WHERE IDInvoice = @IDInvoice;
 END

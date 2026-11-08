@@ -12,8 +12,8 @@ AS
 BEGIN
   SET NOCOUNT ON;
 
-  DECLARE @PreOrderStatus int = (SELECT IDShipmentStatus FROM CatShippmentStatus WHERE ShippmentStatusName = N'En pre orden');
-  DECLARE @ExpiredStatus int = (SELECT IDShipmentStatus FROM CatShippmentStatus WHERE ShippmentStatusName = N'No transicionada');
+  DECLARE @PreOrderStatus int = (SELECT IDShippmentStatus FROM CatShippmentStatus WHERE ShippmentStatusName = N'En pre orden');
+  DECLARE @ExpiredStatus int = (SELECT IDShippmentStatus FROM CatShippmentStatus WHERE ShippmentStatusName = N'No transicionada');
 
   SELECT
     inv.IDInvoice, inv.InvoiceNumber, inv.DocumentNumber, inv.IDUser, inv.AddressLine1, inv.AddressLine2,

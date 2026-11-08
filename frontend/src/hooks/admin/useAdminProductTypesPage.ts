@@ -47,8 +47,8 @@ export function useAdminProductTypesPage() {
 
   function validate(): boolean {
     const errors: Record<string, string> = {};
-    if (!form.productTypeName.trim()) errors.productTypeName = 'Ingresa el nombre de la categoria.';
-    if (!form.productTypeDescription.trim()) errors.productTypeDescription = 'Ingresa una descripcion.';
+    if (!form.productTypeName.trim()) errors.productTypeName = 'Ingresa el nombre de la categoría.';
+    if (!form.productTypeDescription.trim()) errors.productTypeDescription = 'Ingresa una descripción.';
     setFieldErrors(errors);
     return Object.keys(errors).length === 0;
   }
@@ -60,7 +60,7 @@ export function useAdminProductTypesPage() {
     const payload = { productTypeName: form.productTypeName.trim(), productTypeDescription: form.productTypeDescription.trim() };
     const callbacks = {
       onSuccess: () => setFormOpen(false),
-      onError: (err: unknown) => setFormError(err instanceof ApiError ? err.message : 'No se pudo guardar la categoria.'),
+      onError: (err: unknown) => setFormError(err instanceof ApiError ? err.message : 'No se pudo guardar la categoría.'),
     };
 
     if (editingId) {

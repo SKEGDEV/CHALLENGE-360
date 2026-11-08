@@ -8,8 +8,8 @@ BEGIN
   SET NOCOUNT ON;
   SET XACT_ABORT ON;
 
-  DECLARE @PreOrderStatus int = (SELECT IDShipmentStatus FROM CatShippmentStatus WHERE ShippmentStatusName = N'En pre orden');
-  DECLARE @ExpiredStatus int = (SELECT IDShipmentStatus FROM CatShippmentStatus WHERE ShippmentStatusName = N'No transicionada');
+  DECLARE @PreOrderStatus int = (SELECT IDShippmentStatus FROM CatShippmentStatus WHERE ShippmentStatusName = N'En pre orden');
+  DECLARE @ExpiredStatus int = (SELECT IDShippmentStatus FROM CatShippmentStatus WHERE ShippmentStatusName = N'No transicionada');
 
   DECLARE @Expired TABLE (IDInvoice int PRIMARY KEY);
   INSERT INTO @Expired (IDInvoice)

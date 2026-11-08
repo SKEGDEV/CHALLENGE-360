@@ -1,6 +1,7 @@
 import { Chip, Container, EmptyState, ErrorState, Icon, Input, Select, Spinner } from '@components';
 import { useHomePage, type SortOption } from '@hooks';
 import { ProductCard } from './ProductCard';
+import { HeroBackgroundVideo } from './HeroBackgroundVideo';
 import styles from './HomePage.module.scss';
 
 export function HomePage() {
@@ -22,11 +23,13 @@ export function HomePage() {
   return (
     <main>
       <section className={styles.hero}>
-        <Container as="div">
+        <HeroBackgroundVideo />
+        <Container as="div" className={styles.heroContent}>
           <p className={styles.kicker}>Coleccion actual</p>
-          <h1>Viste lo esencial.</h1>
+          <h1>Lentes que elevan tu mirada.</h1>
           <p className={styles.sub}>
-            Encuentra prendas para cada ocasion, con envio rapido y cambios sin costo durante 30 dias.
+            Monturas y lentes de sol de diseno, hechos para resaltar tu estilo, con envio rapido y cambios
+            sin costo durante 30 dias.
           </p>
         </Container>
       </section>
@@ -44,7 +47,7 @@ export function HomePage() {
             <Icon name="rotate-ccw" size="lg" />
             <div>
               <b>Devoluciones sin costo</b>
-              <span>Tienes 30 dias para cambiar de talla o color.</span>
+              <span>Tienes 30 dias para cambiar de modelo o color.</span>
             </div>
           </div>
           <div className={styles.perk}>
@@ -84,8 +87,8 @@ export function HomePage() {
               className={styles.search}
               icon="search"
               type="search"
-              placeholder="Buscar prendas"
-              aria-label="Buscar prendas"
+              placeholder="Buscar anteojos"
+              aria-label="Buscar anteojos"
               value={search}
               onChange={(event) => setSearch(event.target.value)}
             />
@@ -119,7 +122,7 @@ export function HomePage() {
             <div className={styles.stateWrap}>
               <EmptyState
                 icon="search"
-                title="No hay prendas que coincidan."
+                title="No hay anteojos que coincidan."
                 description="Prueba con otra palabra o elige Todo para ver el catalogo completo."
               />
             </div>

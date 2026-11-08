@@ -45,11 +45,11 @@ export function useRegisterPage() {
       return;
     }
     if (!passwordChecks.length) {
-      setErrorMessage('La contrasenia debe tener al menos 8 caracteres.');
+      setErrorMessage('La contraseña debe tener al menos 8 caracteres.');
       return;
     }
     if (!passwordChecks.match) {
-      setErrorMessage('Las contrasenias no coinciden.');
+      setErrorMessage('Las contraseñas no coinciden.');
       return;
     }
     if (!form.userBirthday) {

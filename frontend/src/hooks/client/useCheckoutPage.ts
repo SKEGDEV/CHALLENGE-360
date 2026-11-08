@@ -23,11 +23,11 @@ export function useCheckoutPage() {
     setErrorMessage(null);
 
     if (!addressLine1.trim()) {
-      setErrorMessage('La direccion es requerida.');
+      setErrorMessage('La dirección es requerida.');
       return;
     }
     if (!idShippmentMethod) {
-      setErrorMessage('Selecciona un metodo de envio.');
+      setErrorMessage('Selecciona un método de envío.');
       return;
     }
 

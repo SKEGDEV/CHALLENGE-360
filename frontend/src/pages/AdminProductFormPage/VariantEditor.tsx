@@ -52,8 +52,8 @@ export function VariantEditor({
         </div>
         <ColorPicker label="Color" value={variant.color} onChange={(hex) => onChange({ color: hex })} />
         <Input
-          label="Talla"
-          placeholder="Ej. M, L, 42"
+          label="Medida"
+          placeholder="Ej. 52-18-140"
           value={variant.size}
           onChange={(event) => onChange({ size: event.target.value })}
         />

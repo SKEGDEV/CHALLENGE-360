@@ -71,9 +71,9 @@ export function ProductDetailPage({ idProduct }: ProductDetailPageProps) {
   const canAdd = matchedVariant !== null && available > 0;
 
   const statusLabel = !matchedVariant
-    ? 'Selecciona color y talla para ver la disponibilidad.'
+    ? 'Selecciona color y medida para ver la disponibilidad.'
     : matchedVariant.quantity <= 0
-      ? 'Agotado en este color y talla.'
+      ? 'Agotado en este color y medida.'
       : available <= 0
         ? 'Ya tienes en tu bolsa todas las unidades disponibles.'
         : matchedVariant.quantity <= 5
@@ -135,7 +135,7 @@ export function ProductDetailPage({ idProduct }: ProductDetailPageProps) {
 
           {sizes.length > 0 && (
             <div className={styles.group}>
-              <p className={styles.label}>Talla</p>
+              <p className={styles.label}>Medida</p>
               <div className={styles.optionRow}>
                 {sizes.map((size) => {
                   const variantForSize = product.variants.find(

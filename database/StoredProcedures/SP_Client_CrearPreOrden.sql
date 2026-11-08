@@ -55,7 +55,7 @@ BEGIN
     ReversedNotes, InvoiceUserUpdatedBy, InvoiceUserUpdatedAt, rowStatus, LastItemAddedAt
   )
   SELECT @IDUser, '', @AddressLine1, @AddressLine2, GETDATE(), '',
-         s.IDShipmentStatus, @IDShippmentMethod, NULL, 0, 0,
+         s.IDShippmentStatus, @IDShippmentMethod, NULL, 0, 0,
          NULL, NULL, NULL, 1, GETDATE()
   FROM CatShippmentStatus s WHERE s.ShippmentStatusName = N'En pre orden';
 

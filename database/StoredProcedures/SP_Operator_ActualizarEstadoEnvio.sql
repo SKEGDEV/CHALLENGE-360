@@ -40,7 +40,7 @@ BEGIN
   END
 
   UPDATE Invoice
-  SET IDShipmentStatus = (SELECT IDShipmentStatus FROM CatShippmentStatus WHERE ShippmentStatusName = @NextStatusName),
+  SET IDShipmentStatus = (SELECT IDShippmentStatus FROM CatShippmentStatus WHERE ShippmentStatusName = @NextStatusName),
       ShippmentGuide = ISNULL(@DeliveryGuide, ShippmentGuide),
       isPayVDelivered = CASE WHEN @NextStatusName = N'Entregado al cliente final' THEN 1 ELSE isPayVDelivered END
   WHERE IDInvoice = @IDInvoice;

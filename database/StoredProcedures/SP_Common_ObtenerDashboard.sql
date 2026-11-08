@@ -8,7 +8,7 @@ BEGIN
 
   DECLARE @ShippedStatuses TABLE (IDShipmentStatus int);
   INSERT INTO @ShippedStatuses (IDShipmentStatus)
-  SELECT IDShipmentStatus FROM CatShippmentStatus
+  SELECT IDShippmentStatus FROM CatShippmentStatus
   WHERE ShippmentStatusName IN (N'Entregado a servicio delivery', N'Entregado al cliente final');
 
   DECLARE @ShippedByVariant TABLE (IDVariant int PRIMARY KEY, TotalQuantity int);

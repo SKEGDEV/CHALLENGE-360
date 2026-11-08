@@ -66,8 +66,8 @@ export function useAdminUsersPage() {
     const errors: Record<string, string> = {};
     if (!form.userFirstName.trim()) errors.userFirstName = 'Ingresa el nombre.';
     if (!form.userLastName.trim()) errors.userLastName = 'Ingresa el apellido.';
-    if (!/^\S+@\S+\.\S+$/.test(form.userEmail)) errors.userEmail = 'Ingresa un correo valido.';
-    if (form.userPassword.length < 8) errors.userPassword = 'La contrasena debe tener al menos 8 caracteres.';
+    if (!/^\S+@\S+\.\S+$/.test(form.userEmail)) errors.userEmail = 'Ingresa un correo válido.';
+    if (form.userPassword.length < 8) errors.userPassword = 'La contraseña debe tener al menos 8 caracteres.';
     if (!form.userBirthday) errors.userBirthday = 'Selecciona la fecha de nacimiento.';
     if (!form.rolePublicCode) errors.rolePublicCode = 'Selecciona un rol.';
     setFieldErrors(errors);

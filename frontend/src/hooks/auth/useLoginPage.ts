@@ -23,7 +23,7 @@ export function useLoginPage() {
     setErrorMessage(null);
 
     if (!userEmail || !userPassword) {
-      setErrorMessage('Escribe tu correo electronico y tu contrasenia.');
+      setErrorMessage('Escribe tu correo electrónico y tu contraseña.');
       return;
     }
 
@@ -32,7 +32,7 @@ export function useLoginPage() {
       {
         onSuccess: (session) => void navigate({ to: homeRouteForSession(session) }),
         onError: (error) => {
-          setErrorMessage(error instanceof ApiError ? error.message : 'No se pudo iniciar sesion.');
+          setErrorMessage(error instanceof ApiError ? error.message : 'No se pudo iniciar sesión.');
         },
       },
     );

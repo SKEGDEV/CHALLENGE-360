@@ -45,7 +45,7 @@ export function AdminProductsPage() {
         <Input
           icon="search"
           label="Buscar producto"
-          placeholder="Ej. Camisa de lino"
+          placeholder="Ej. Lentes de sol Aviador"
           value={search}
           onChange={(event) => setSearch(event.target.value)}
         />
