@@ -1,7 +1,8 @@
 import { useMemo, useState } from 'react';
 import clsx from 'clsx';
+import { useNavigate } from '@tanstack/react-router';
 import { formatMoney, isValidHexColor } from '@core';
-import { Button, Chip, Container, ErrorState, ProductImage, Spinner, Stepper, useToast } from '@components';
+import { Button, Chip, Container, ErrorState, ProductGallery, Spinner, Stepper, useToast } from '@components';
 import { useProductDetailPage } from '@hooks';
 import { useCart } from '@store';
 import styles from './ProductDetailPage.module.scss';
@@ -14,6 +15,7 @@ export function ProductDetailPage({ idProduct }: ProductDetailPageProps) {
   const { product, isLoading, isError, errorMessage, notFound, onRetry } = useProductDetailPage(idProduct);
   const cart = useCart();
   const { showToast } = useToast();
+  const navigate = useNavigate();
 
   const [colorOverride, setColorOverride] = useState<string | null>(null);
   const [sizeOverride, setSizeOverride] = useState<string | null>(null);
@@ -64,6 +66,9 @@ export function ProductDetailPage({ idProduct }: ProductDetailPageProps) {
     );
   }
 
+  const activeVariant = matchedVariant ?? product.variants[0] ?? null;
+  const photos = activeVariant?.photos ?? [];
+
   const alreadyInCart = matchedVariant
     ? (cart.items.find((item) => item.idProductVariant === matchedVariant.idVariant)?.quantity ?? 0)
     : 0;
@@ -100,11 +105,17 @@ export function ProductDetailPage({ idProduct }: ProductDetailPageProps) {
   return (
     <Container as="main" className={styles.page}>
       <div className={styles.grid}>
-        <ProductImage
+        <ProductGallery
           className={styles.media}
-          bucketKey={matchedVariant?.photos[0] ?? product.variants[0]?.photos[0] ?? null}
+          photos={photos}
           alt={product.productName}
-          size="lg"
+          onImageClick={(index) =>
+            activeVariant &&
+            void navigate({
+              to: '/product/$idProduct/image/$idVariant/$index',
+              params: { idProduct: String(idProduct), idVariant: String(activeVariant.idVariant), index: String(index) },
+            })
+          }
         />
         <div className={styles.info}>
           <span className={styles.category}>{product.productTypeName}</span>

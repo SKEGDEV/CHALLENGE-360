@@ -9,6 +9,7 @@ export * from './Chip';
 export * from './Avatar';
 export * from './Spinner';
 export * from './ProductImage';
+export * from './ProductGallery';
 export * from './Table';
 export * from './Pagination';
 export * from './Textarea';

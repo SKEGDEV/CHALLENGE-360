@@ -1,0 +1,1 @@
+export { ProductImageFullscreenPage } from './ProductImageFullscreenPage';

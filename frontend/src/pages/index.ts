@@ -1,5 +1,6 @@
 export * from './HomePage';
 export * from './ProductDetailPage';
+export * from './ProductImageFullscreenPage';
 export * from './LoginPage';
 export * from './RegisterPage';
 export * from './CheckoutPage';

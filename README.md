@@ -1,8 +1,8 @@
 # Challenge 360 — shopCart
 
-Un sistema de comercio electronico ("carrito de compras") construido como challenge de programacion: una API REST en Express + TypeScript, respaldada por SQL Server, con dominios Admin / Operator / Client / Common, autenticacion JWT con un modelo de permisos a nivel de recurso, un worker en segundo plano y notificaciones de correo asincronas via AWS SQS.
+Un sistema de comercio electronico ("carrito de compras") construido como challenge de programacion: una API REST en Express + TypeScript, respaldada por SQL Server, con dominios Admin / Operator / Client / Common, autenticacion JWT con un modelo de permisos a nivel de recurso, un worker en segundo plano y notificaciones de correo asincronas via AWS SQS; y una SPA en React + TypeScript que consume esa API, con sus propios layouts y rutas protegidas por rol (Admin / Operator / Client).
 
-Este documento es la fuente unica de verdad sobre como esta construido el proyecto, por que esta construido de esa forma, y como configurarlo y ejecutarlo. Los contratos de request/response por endpoint viven en `backend/spect/*.md`; este README se enfoca en la arquitectura, la infraestructura y el razonamiento detras de ambas.
+Este documento es la fuente unica de verdad sobre como esta construido el proyecto, por que esta construido de esa forma, y como configurarlo y ejecutarlo. Los contratos de request/response por endpoint viven en `backend/spect/*.md`; este README se enfoca en la arquitectura, la infraestructura y el razonamiento detras de ambas aplicaciones.
 
 ## Tabla de contenido
 
@@ -22,26 +22,47 @@ Este documento es la fuente unica de verdad sobre como esta construido el proyec
   - [Documentacion de la API (Swagger)](#documentacion-de-la-api-swagger)
   - [Manejo de errores y codigos de error/exito](#manejo-de-errores-y-codigos-de-errorexito)
   - [Mapa de endpoints](#mapa-de-endpoints)
+- [Frontend](#frontend)
+  - [Stack y decisiones de build](#stack-y-decisiones-de-build)
+  - [Capas](#capas-1)
+  - [Ciclo de vida de una pantalla](#ciclo-de-vida-de-una-pantalla)
+  - [Ruteo y como se protegen las rutas](#ruteo-y-como-se-protegen-las-rutas)
+  - [Estado global y sesion](#estado-global-y-sesion)
+  - [Cliente HTTP y rotacion de tokens](#cliente-http-y-rotacion-de-tokens)
+  - [UI kit e iconos](#ui-kit-e-iconos)
+  - [Configuracion](#configuracion-frontend)
 - [Base de datos](#base-de-datos)
 
 ## Estructura del proyecto
 
 ```
 challenge_360/
-├── backend/           API en Express + TypeScript (documentada abajo)
+├── backend/            API en Express + TypeScript (documentada abajo)
 │   ├── src/
-│   ├── spect/         Especificaciones funcionales por feature, escritas antes/junto a la implementacion
-│   ├── skills/        Reglas internas de construccion contra las que se implemento la API
-│   └── database/      (conceptualmente enlazada a ../database, ver abajo)
-├── database/          Esquema de SQL Server, scripts de correccion de drift y stored procedures
-└── frontend/          Reservado para la aplicacion cliente (aun no iniciada)
+│   ├── spect/          Especificaciones funcionales por feature, escritas antes/junto a la implementacion
+│   ├── skills/         Reglas internas de construccion contra las que se implemento la API
+│   └── database/       (conceptualmente enlazada a ../database, ver abajo)
+├── database/           Esquema de SQL Server, scripts de correccion de drift y stored procedures
+└── frontend/           SPA en React + TypeScript + Vite (documentada abajo)
+    └── src/
+        ├── app/         Composicion de la app: router, QueryClient, providers
+        ├── routes/       Rutas de TanStack Router (file-based), una por archivo
+        ├── layouts/      Shells por rol: AdminLayout, OperatorLayout, StorefrontLayout
+        ├── pages/        Componentes de pantalla, puramente presentacionales
+        ├── hooks/        Hooks de TanStack Query + hooks de orquestacion por pantalla, uno por dominio
+        ├── services/     Clientes tipados de la API, uno por modulo del backend
+        ├── store/        Estado global (reducer + Context), uno por slice: auth, cart
+        ├── core/         http client, storage, config, types y utils transversales
+        ├── components/   UI kit, layout parts, feedback e Icon registry
+        └── styles/       SCSS global y tokens de diseño
 ```
 
-El backend es la unica aplicacion implementada por ahora; `frontend/` es un placeholder para una futura interfaz.
+Ambas aplicaciones son independientes en build y despliegue, pero comparten el mismo contrato: el frontend solo entiende la forma `StandardResponse` que expone la API (ver mas abajo).
 
 ## Primeros pasos
 
 ```bash
+# Backend
 cd backend
 pnpm install
 cp .env.example .env   # completa los valores descritos en "Configuracion y secretos" abajo
@@ -50,7 +71,17 @@ pnpm dev                # ts-node-dev, hot reload
 pnpm build && pnpm start
 ```
 
-La API necesita, como minimo, una instancia de SQL Server alcanzable (ver `database/`) y — para cualquier funcionalidad mas alla de un CRUD basico — un emulador local compatible con AWS ("floci", compatible con LocalStack) escuchando en `AWS_ENDPOINT_URL` para Secrets Manager, S3 y SQS. Todo en la API esta escrito para degradar de forma controlada cuando falta alguna de estas dependencias: el servidor igual arranca, y solo queda deshabilitada la funcionalidad dependiente (rutas respaldadas por DB, subida de archivos, notificaciones por correo) en lugar de hacer caer todo el proceso.
+```bash
+# Frontend
+cd frontend
+pnpm install
+cp .env.example .env   # define VITE_API_URL apuntando al backend de arriba
+pnpm dev                # Vite, hot reload en http://localhost:5173
+# o
+pnpm build && pnpm preview
+```
+
+La API necesita, como minimo, una instancia de SQL Server alcanzable (ver `database/`) y — para cualquier funcionalidad mas alla de un CRUD basico — un emulador local compatible con AWS ("floci", compatible con LocalStack) escuchando en `AWS_ENDPOINT_URL` para Secrets Manager, S3 y SQS. Todo en la API esta escrito para degradar de forma controlada cuando falta alguna de estas dependencias: el servidor igual arranca, y solo queda deshabilitada la funcionalidad dependiente (rutas respaldadas por DB, subida de archivos, notificaciones por correo) en lugar de hacer caer todo el proceso. El frontend no tiene dependencias de infraestructura propias: solo necesita que `VITE_API_URL` resuelva a una instancia de la API corriendo.
 
 ## API
 
@@ -227,6 +258,109 @@ Cada ruta esta anotada con un bloque JSDoc `@openapi` justo encima de su registr
 | Client | `GET /api/client/invoice(/:idInvoice)` | Client | Listado/detalle de las facturas propias del cliente |
 
 Los contratos completos de request/response, reglas de validacion y comportamiento de negocio por endpoint estan documentados en `backend/spect/spect_00001_AUHT_flows.md`, `spect_00002_Admin_flows.md` y `spect_00003_operator_client_flows.md`.
+
+## Frontend
+
+### Stack y decisiones de build
+
+- **React 19 + TypeScript + Vite**, gestionado con `pnpm`. `oxlint` como linter (rapido, sin configuracion de ESLint que mantener) y Sass Modules (`*.module.scss`) para estilos con scope por componente — sin librerias de CSS-in-JS ni un framework de utilidades, para mantener el bundle y la curva de aprendizaje minimas.
+- **TanStack Router** para ruteo file-based con code splitting automatico (`@tanstack/router-plugin/vite`, `autoCodeSplitting: true`) y **TanStack Query** para todo el estado de servidor (cache, reintentos, invalidacion). No hay Redux ni Zustand: el unico estado verdaderamente global y de cliente (sesion, carrito) vive en un store propio minimo (ver [Estado global y sesion](#estado-global-y-sesion)); todo lo demas es estado de servidor cacheado por Query o estado local de componente.
+- **Alias por capa**, exactamente simetricos a los del backend (`@Core`/`@Application`/...): `@app`, `@core`, `@components`, `@hooks`, `@layouts`, `@pages`, `@services`, `@store`, `@styles`, `@assets`, definidos una sola vez en `vite.config.ts` (resolucion en runtime) y espejados en `tsconfig.app.json` (chequeo de tipos) — igual que los alias de capa del backend, esto hace que un import ilegal entre capas (p.ej. una `page` importando directo de `core/http` en vez de pasar por un `service`) sea visible en el import en si, no solo en una convencion documentada.
+
+### Capas
+
+```
+routes  →  pages  →  hooks  →  services  →  core/http
+   ↓          ↓         ↓
+layouts   components  store
+```
+
+| Capa | Carpeta | Responsabilidad | Puede depender de |
+|---|---|---|---|
+| **core** | `src/core` | El `http` client (wrapper de `fetch`, unico lugar que arma requests), `storage` (envoltorio versionado sobre `localStorage`), `config/env` (unica lectura de `import.meta.env`), `types` (espejo de `StandardResponse`) y `utils` puros (JWT decode, formato de moneda/fecha, color, SKU, URLs de archivo). Sin JSX, sin dependencias de React. | nada |
+| **services** | `src/services` | Un cliente tipado por modulo del backend (`auth`, `admin`, `operator`, `client`, `common`): funciones que llaman a `http.get/post/put/patch/delete` con la ruta exacta de la API y hacen `unwrapData` sobre el `StandardResponse`. Cero cache, cero estado — solo el contrato HTTP tipado. | core |
+| **hooks** | `src/hooks` | Dos niveles, uno por archivo: `*.queries.ts`/`*.mutations.ts` (hooks finos de TanStack Query que llaman a un `service` y exponen cache keys en `*.keys.ts`), y `use<Page>Page.ts` (un hook por pantalla que compone una o mas queries/mutations, deriva estado y expone únicamente lo que la `page` necesita: datos, flags de carga/error, handlers). | services, store, core |
+| **store** | `src/store` | Estado global de cliente, minimo a proposito: un slice `auth` (sesion/rol actual) y un slice `cart`. Cada slice se arma con la misma factory `createStore` (reducer + Context, ver abajo). | core |
+| **pages** | `src/pages` | Componentes de pantalla, puramente presentacionales: reciben todo (datos, estado de carga, handlers) del hook `use<Page>Page` correspondiente y no llaman a `services` ni a `fetch` directamente. Separar esto del hook es lo que permite rediseñar una pantalla sin tocar su logica de datos, y probar la logica de datos sin montar JSX. | hooks, components |
+| **layouts** | `src/layouts` | Un shell visual por rol/zona: `StorefrontLayout` (header publico, carrito), `AdminLayout`, `OperatorLayout` (sidebar + nav por rol). Renderizan `<Outlet />` de TanStack Router y el logout. | store, components |
+| **routes** | `src/routes` | Definiciones de TanStack Router, deliberadamente delgadas: cada archivo solo arma un `createFileRoute(...)` con un `beforeLoad` (guard, si aplica) y un `component` importado de `pages`/`layouts`. Nunca contienen JSX propio mas alla de un wrapper trivial para leer params tipados. | pages, layouts, guards |
+| **components** | `src/components` | El UI kit compartido (`Button`, `Input`, `Select`, `Table`, `Pagination`, `ProductGallery`, etc.), el registro de iconos (`Icon`, sobre `lucide-react`) y partes de layout/feedback reutilizables. | core |
+
+**Por que un hook de pantalla (`use<Page>Page`) separado del componente de pantalla**, en vez de llamar `useQuery`/`useMutation` directo dentro del JSX: es el mismo razonamiento que separa Service de Helper en el backend — mantener cada pieza responsable de una sola cosa. El hook concentra toda la orquestacion de datos de una pantalla (que queries corren, como se derivan sus valores, que hace cada boton) en un unico lugar legible de arriba a abajo; la `page` se queda solo con marcado y estilos. Esto hace trivial reusar la misma pantalla con datos simulados en una historia/test, y que cambiar de TanStack Query a cualquier otra cosa en el futuro solo toque `hooks/`, nunca `pages/`.
+
+### Ciclo de vida de una pantalla
+
+```
+Ruta (TanStack Router)
+  → beforeLoad: guard de auth/rol (si la ruta lo requiere, ver abajo)
+  → component: Layout (si es ruta padre) o Page (si es ruta hoja)
+      → use<Page>Page()            // hook de orquestacion
+          → useXQuery / useXMutation   // TanStack Query, cache por query key
+              → xService.method()      // contrato HTTP tipado
+                  → http.get/post/...  // fetch wrapper, inyecta Authorization + x-refresh-token
+      ← { data, isLoading, isError, handlers }
+  → JSX puramente presentacional, usando el UI kit de @components
+```
+
+Esto espeja a proposito el ciclo de vida de una peticion en el backend (routing → middleware → controller → service → repository): cada capa tiene una unica razon para cambiar, y los datos solo fluyen en una direccion (routes → pages → hooks → services → core).
+
+### Ruteo y como se protegen las rutas
+
+El ruteo usa **TanStack Router en modo file-based**: cada archivo en `src/routes/` es una ruta, con convenciones de nombre que codifican la jerarquia (`admin.products.$idProduct.tsx` → `/admin/products/:idProduct`, el prefijo `_` marca una ruta "pathless" que solo aporta layout sin segmento de URL — `_storefront.tsx` —, y el prefijo `-` marca un archivo que **no** es una ruta, como `-guards.ts`). El plugin de Vite (`@tanstack/router-plugin`) observa esta carpeta y regenera `src/routeTree.gen.ts` automaticamente — ese archivo nunca se edita a mano, es equivalente al `routeTree` compilado que consume `createRouter` en `app/router.ts`.
+
+La proteccion de rutas **no vive dentro de los componentes de pagina**, vive declarada en la propia definicion de ruta, en el hook `beforeLoad` que TanStack Router corre antes de montar cualquier componente:
+
+```ts
+// src/routes/-guards.ts
+export function requireAuth(): void {
+  if (!getAuthSnapshot().isAuthenticated) throw redirect({ to: '/login' });
+}
+
+export function requireRole(role: string): () => void {
+  return () => {
+    const snapshot = getAuthSnapshot();
+    if (!snapshot.isAuthenticated) throw redirect({ to: '/login' });
+    if (!snapshot.roles.includes(role)) throw redirect({ to: '/' });
+  };
+}
+```
+
+Esto se aplica en dos niveles distintos, segun si la proteccion aplica a una zona entera o a una pantalla puntual:
+
+- **Por rol, a nivel de layout padre.** `/admin` y `/operator` son rutas padre (`routes/admin.tsx`, `routes/operator.tsx`) cuyo `beforeLoad` es `requireRole('ADPRU')` / `requireRole('OPPRU')` respectivamente (los codigos de rol vienen directo de `Role.RolePublicCode` en la base de datos, el mismo valor que el backend guarda en el JWT). TanStack Router corre el `beforeLoad` de cada ancestro antes del de la ruta hija, de la raiz hacia abajo — asi que **toda** ruta bajo `/admin/*` (`products`, `cupons`, `users`, `product-types`, ...) queda protegida una sola vez, en el layout, sin repetir el guard en cada pantalla hija. Es deliberadamente el mismo modelo que la tabla `RoleResource` del backend: declarar el permiso una vez en el nodo correcto del arbol en lugar de un `if` repetido por endpoint/pantalla.
+- **Por sesion, a nivel de pantalla puntual.** Dentro de la zona publica (`_storefront`, sin guard propio — Home, login, registro, detalle de producto son publicos), las pantallas que si requieren estar logueado (`orders`, `checkout`) declaran `requireAuth` en su propio `beforeLoad`, porque no comparten un ancestro protegido con el resto del storefront publico.
+
+Un `beforeLoad` corre fuera del arbol de React (es parte de la resolucion de la ruta, antes de cualquier render), por lo que los guards **no pueden usar el hook `useAuth`**; en cambio leen el estado de sesion de forma sincrona con `getAuthSnapshot()`, que lee directo de `localStorage` (ver abajo). Esto es intencional: la primera pintura de una ruta protegida nunca llega a mostrar contenido restringido ni un parpadeo de "cargando" antes de redirigir — el `redirect()` ocurre antes de que exista cualquier componente que pintar.
+
+### Estado global y sesion
+
+Todo el estado de cliente (no de servidor) se arma con una unica factory, `createStore` (`src/store/createStore.tsx`): un `reducer` + dos `Context` de React (uno para el estado, uno para el `dispatch`), hidratado una vez al montar desde `storage` (el envoltorio versionado sobre `localStorage`) y persistido de vuelta en cada cambio via `useEffect`. Los dos slices reales (`auth`, `cart`) son instancias delgadas de esa misma factory — no hay logica de persistencia duplicada entre ellos.
+
+**El detalle que conecta el store de React con los guards fuera de React:** el slice `auth` persiste bajo la misma clave versionada de `localStorage` (`app:auth`, v1) que usa `core/http/authSession.ts` para leer/escribir el token de acceso y refresco que el cliente HTTP adjunta a cada peticion. En la practica, `localStorage` es la unica fuente de verdad para la sesion; el `useAuth()` hook (estado reactivo, para renderizar) y `getAuthSnapshot()` (lectura sincrona, para los guards de rutas) son simplemente dos formas de leer el mismo dato segun si el llamador esta dentro del arbol de React o no. Esto evita el problema clasico de "el guard de ruta ve una sesion desactualizada porque vive en un store de React distinto al que acaba de hacer login".
+
+El rol del usuario nunca se guarda "a mano": al hacer login o registro, el frontend decodifica el `accessToken` (JWT) con `decodeJwtPayload` y toma `roles` directo de sus claims — los mismos roles que el backend ya valido y firmo, nunca una copia separada que se pueda desincronizar.
+
+### Cliente HTTP y rotacion de tokens
+
+`core/http/httpClient.ts` es el unico lugar del frontend que llama a `fetch`. Por cada peticion:
+
+1. Lee la sesion persistida (`readAuthSession`) y, si existe, agrega `Authorization: Bearer <accessToken>` **y** `x-refresh-token: <refreshToken>` — el backend espera ambos para poder rotar el par de tokens de forma transparente si el de acceso ya expiro (ver [Autenticacion y autorizacion](#autenticacion-y-autorizacion) en la API).
+2. Si la respuesta trae `data.refreshSession` (el backend solo la incluye cuando efectivamente roto los tokens), el cliente escribe el nuevo par de vuelta en `localStorage` de inmediato — sin que ningun componente ni hook tenga que saber que eso paso. Ningun endpoint de "refresh" separado se llama nunca desde el frontend.
+3. Una respuesta no-OK se convierte siempre en una unica clase, `ApiError` (status, `errorCode`, y `fieldErrors` si `errorMessage` del `StandardResponse` vino como objeto) — los `hooks` de mutacion/query solo necesitan capturar ese unico tipo para mostrar un error de validacion por campo o un mensaje generico, nunca ramificar por forma de respuesta.
+
+Esto significa que absolutamente ningun `service` ni `hook` sabe que existe un token de refresco: el manejo completo de sesion vive encapsulado en `core/http` + `core/storage`.
+
+### UI kit e iconos
+
+`src/components/ui` es un kit pequeño y propio (`Button`, `Input`, `Select`, `Checkbox`, `Stepper`, `Badge`, `Chip`, `Avatar`, `Spinner`, `Table`, `Pagination`, `Textarea`, `ColorPicker`, `ProductImage`/`ProductGallery`, etc.), sin dependencia de una libreria de componentes externa — cada uno es un componente + su `*.module.scss`. Los iconos pasan por un unico registro (`components/Icon/iconRegistry.ts`) que mapea nombres de string estables (`'shopping-bag'`, `'log-out'`, `'package'`, ...) a los iconos reales de `lucide-react`; el resto de la app importa `<Icon name="..." />`, nunca un icono de `lucide-react` directamente. Eso mantiene el set de iconos realmente usado auditable en un solo archivo y hace trivial cambiar de libreria de iconos sin tocar ningun componente de pantalla.
+
+### Configuracion frontend
+
+Igual que el backend concentra toda lectura de `process.env` en una unica implementacion de `ISettings`, el frontend concentra toda lectura de `import.meta.env` en `core/config/env.ts` — el resto del codigo importa `env`, nunca `import.meta.env` directamente.
+
+| Variable | Proposito | Valor por defecto |
+|---|---|---|
+| `VITE_API_URL` | Base URL de la API contra la que corre el cliente HTTP | _(requerido)_ |
 
 ## Base de datos
 
