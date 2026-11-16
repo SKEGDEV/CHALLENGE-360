@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Link, Outlet, useNavigate } from '@tanstack/react-router';
-import { Container, Icon, IconButton, ToastProvider } from '@components';
+import { Button, Container, Icon, IconButton, ToastProvider } from '@components';
 import { useAuth, useCart } from '@store';
 import { CartDrawer } from './CartDrawer';
 import styles from './StorefrontLayout.module.scss';
@@ -28,10 +28,10 @@ export function StorefrontLayout() {
     <ToastProvider>
       <header className={styles.nav}>
         <Container as="div" className={styles.navIn}>
-          <Link to="/" className={styles.brand}>
-            <Icon name="shopping-bag" />
+          <Button variant="secondary" onClick={() => void navigate({ to: '/' })}>
+            <Icon name="store" size="sm" />
             Tienda
-          </Link>
+          </Button>
           <div className={styles.actions}>
             <div className={styles.cartWrap}>
               <IconButton icon="shopping-bag" label="Abrir bolsa de compras" onClick={() => setCartOpen(true)} />
@@ -73,9 +73,10 @@ export function StorefrontLayout() {
                 )}
               </div>
             ) : (
-              <Link to="/login" className={styles.loginLink}>
+              <Button onClick={() => void navigate({ to: '/login' })}>
+                <Icon name="log-in" size="sm" />
                 Iniciar sesion
-              </Link>
+              </Button>
             )}
           </div>
         </Container>

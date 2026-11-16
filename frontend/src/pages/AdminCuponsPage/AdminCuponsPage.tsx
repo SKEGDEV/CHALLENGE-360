@@ -1,5 +1,6 @@
+import { useState } from 'react';
 import { formatMoney } from '@core';
-import { Button, Drawer, EmptyState, ErrorState, IconButton, Pagination, Spinner, Table } from '@components';
+import { ConfirmDialog, Button, Drawer, EmptyState, ErrorState, IconButton, Pagination, Spinner, Table } from '@components';
 import { useAdminCuponsPage } from '@hooks';
 import { CuponForm } from './CuponForm';
 import styles from './AdminCuponsPage.module.scss';
@@ -26,11 +27,24 @@ export function AdminCuponsPage() {
     deleteCupon,
   } = useAdminCuponsPage();
 
+  const [pendingAction, setPendingAction] = useState<{ message: string; onConfirm: () => void } | null>(null);
+
   return (
     <div className={styles.page}>
+      <ConfirmDialog
+        open={pendingAction !== null}
+        message={pendingAction?.message ?? ''}
+        confirmIcon="trash"
+        confirmLabel="Sí, eliminar"
+        onCancel={() => setPendingAction(null)}
+        onConfirm={() => {
+          pendingAction?.onConfirm();
+          setPendingAction(null);
+        }}
+      />
       <div className={styles.header}>
         <h1>Cupones</h1>
-        <Button type="button" onClick={openCreate}>
+        <Button icon="plus" type="button" onClick={openCreate}>
           Nuevo cupón
         </Button>
       </div>
@@ -64,11 +78,7 @@ export function AdminCuponsPage() {
                       size="sm"
                       variant="danger"
                       disabled={deleteCupon.isPending}
-                      onClick={() => {
-                        if (confirm(`Eliminar el cupón "${row.cuponCode}"?`)) {
-                          deleteCupon.mutate(row.idCupon);
-                        }
-                      }}
+                      onClick={() => setPendingAction({ message: `Se eliminará el cupón "${row.cuponCode}".`, onConfirm: () => deleteCupon.mutate(row.idCupon) })}
                     />
                   </div>
                 ),

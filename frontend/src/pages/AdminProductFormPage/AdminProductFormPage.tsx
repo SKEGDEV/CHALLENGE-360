@@ -120,7 +120,7 @@ function ProductFormContent({ idProduct, isEditMode, detail, productTypes }: Pro
 
       <div className={styles.variantsHeader}>
         <h2>Variantes</h2>
-        <Button type="button" variant="secondary" size="sm" onClick={addVariant}>
+        <Button icon="plus" type="button" variant="secondary" size="sm" onClick={addVariant}>
           Agregar variante
         </Button>
       </div>
@@ -147,7 +147,7 @@ function ProductFormContent({ idProduct, isEditMode, detail, productTypes }: Pro
       {formError && <p className={styles.formError}>{formError}</p>}
 
       <div className={styles.footer}>
-        <Button type="button" size="lg" disabled={isSaving} onClick={submit}>
+        <Button icon="save" type="button" size="lg" disabled={isSaving} onClick={submit}>
           {isSaving ? 'Guardando...' : 'Guardar producto'}
         </Button>
       </div>

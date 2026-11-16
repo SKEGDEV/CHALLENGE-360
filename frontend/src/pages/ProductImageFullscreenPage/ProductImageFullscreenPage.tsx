@@ -27,7 +27,7 @@ export function ProductImageFullscreenPage({ idProduct, idVariant, index }: Prod
     };
   }, []);
 
-  const onClose = () => void navigate({ to: '/product/$idProduct', params: { idProduct: String(idProduct) } });
+  const onClose = () => void navigate({ to: '/product' });
 
   if (isLoading) {
     return (

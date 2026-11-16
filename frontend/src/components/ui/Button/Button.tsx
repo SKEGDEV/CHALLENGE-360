@@ -1,4 +1,5 @@
 import clsx from 'clsx';
+import { Icon } from '../../Icon/Icon';
 import styles from './Button.module.scss';
 import type { ButtonProps } from './Button.types';
 
@@ -6,6 +7,8 @@ export function Button({
   variant = 'primary',
   size = 'md',
   block,
+  icon,
+  children,
   className,
   type = 'button',
   ...rest
@@ -15,6 +18,9 @@ export function Button({
       type={type}
       className={clsx(styles.btn, styles[variant], styles[size], block && styles.block, className)}
       {...rest}
-    />
+    >
+      {icon && <Icon name={icon} size="sm" />}
+      {children}
+    </button>
   );
 }

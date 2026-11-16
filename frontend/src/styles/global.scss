@@ -25,6 +25,28 @@ body {
 
 a {
   color: var(--color-link);
+  text-decoration: none;
+
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
+button,
+[role='button'],
+summary,
+select,
+input[type='button'],
+input[type='submit'],
+input[type='checkbox'],
+input[type='radio'],
+input[type='file'],
+label[for] {
+  cursor: pointer;
+}
+
+button:disabled {
+  cursor: pointer;
 }
 
 :focus-visible {

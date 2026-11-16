@@ -86,7 +86,7 @@ export function RegisterPage() {
               {errorMessage}
             </p>
           )}
-          <Button type="submit" size="lg" block disabled={isSubmitting}>
+          <Button icon="user-plus" type="submit" size="lg" block disabled={isSubmitting}>
             {isSubmitting ? 'Creando cuenta...' : 'Crear cuenta'}
           </Button>
         </form>

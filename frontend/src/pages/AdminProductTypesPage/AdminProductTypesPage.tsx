@@ -1,4 +1,5 @@
-import { Button, Drawer, EmptyState, ErrorState, IconButton, Input, Spinner, Table, Textarea } from '@components';
+import { useState } from 'react';
+import { ConfirmDialog, Button, Drawer, EmptyState, ErrorState, IconButton, Input, Spinner, Table, Textarea } from '@components';
 import { useAdminProductTypesPage } from '@hooks';
 import styles from './AdminProductTypesPage.module.scss';
 
@@ -23,11 +24,24 @@ export function AdminProductTypesPage() {
     deleteProductType,
   } = useAdminProductTypesPage();
 
+  const [pendingAction, setPendingAction] = useState<{ message: string; onConfirm: () => void } | null>(null);
+
   return (
     <div className={styles.page}>
+      <ConfirmDialog
+        open={pendingAction !== null}
+        message={pendingAction?.message ?? ''}
+        confirmIcon="trash"
+        confirmLabel="Sí, eliminar"
+        onCancel={() => setPendingAction(null)}
+        onConfirm={() => {
+          pendingAction?.onConfirm();
+          setPendingAction(null);
+        }}
+      />
       <div className={styles.header}>
         <h1>Categorías</h1>
-        <Button type="button" onClick={openCreate}>
+        <Button icon="plus" type="button" onClick={openCreate}>
           Nueva categoría
         </Button>
       </div>
@@ -56,11 +70,7 @@ export function AdminProductTypesPage() {
                     size="sm"
                     variant="danger"
                     disabled={deleteProductType.isPending}
-                    onClick={() => {
-                      if (confirm(`Eliminar la categoría "${row.productTypeName}"?`)) {
-                        deleteProductType.mutate(row.idProductType);
-                      }
-                    }}
+                    onClick={() => setPendingAction({ message: `Se eliminará la categoría "${row.productTypeName}".`, onConfirm: () => deleteProductType.mutate(row.idProductType) })}
                   />
                 </div>
               ),
@@ -75,7 +85,7 @@ export function AdminProductTypesPage() {
         onClose={closeForm}
         title={isEditing ? 'Editar categoría' : 'Nueva categoría'}
         footer={
-          <Button type="button" block disabled={isSaving} onClick={submit}>
+          <Button icon="save" type="button" block disabled={isSaving} onClick={submit}>
             {isSaving ? 'Guardando...' : 'Guardar categoría'}
           </Button>
         }

@@ -1,5 +1,5 @@
 import { useRef } from 'react';
-import { Button, Checkbox, ColorPicker, IconButton, Input, Spinner } from '@components';
+import { Button, Checkbox, Icon, ColorPicker, IconButton, Input, Spinner } from '@components';
 import type { VariantFormValue } from '@hooks';
 import styles from './VariantEditor.module.scss';
 
@@ -46,7 +46,7 @@ export function VariantEditor({
             onChange={(event) => onChange({ sku: event.target.value })}
             error={fieldErrors[`variant-${index}-sku`]}
           />
-          <Button type="button" variant="secondary" size="sm" onClick={onAutogenerateSku}>
+          <Button icon="sparkles" type="button" variant="secondary" size="sm" onClick={onAutogenerateSku}>
             Autogenerar
           </Button>
         </div>
@@ -105,7 +105,7 @@ export function VariantEditor({
             </div>
           ))}
           <button type="button" className={styles.addPhoto} onClick={() => fileInputRef.current?.click()} disabled={variant.isUploading}>
-            {variant.isUploading ? <Spinner size="sm" /> : 'Agregar foto'}
+            {variant.isUploading ? <Spinner size="sm" /> : (<><Icon name="image-plus" size="sm" />Agregar foto</>)}
           </button>
           <input
             ref={fileInputRef}

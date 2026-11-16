@@ -1,5 +1,5 @@
 import { redirect } from '@tanstack/react-router';
-import { getAuthSnapshot } from '@store';
+import { getAuthSnapshot, getSelection, type SelectionState } from '@store';
 
 export function requireAuth(): void {
   if (!getAuthSnapshot().isAuthenticated) {
@@ -15,6 +15,19 @@ export function requireRole(role: string): () => void {
     }
     if (!snapshot.roles.includes(role)) {
       throw redirect({ to: '/' });
+    }
+  };
+}
+
+/**
+ * Exige que exista un id seleccionado en el estado global; si se perdió
+ * (p. ej. al recargar la pagina) redirige a la pagina padre.
+ */
+export function requireSelection(select: (s: SelectionState) => unknown, fallback: string): () => void {
+  return () => {
+    const value = select(getSelection());
+    if (value === null || value === undefined) {
+      throw redirect({ to: fallback });
     }
   };
 }

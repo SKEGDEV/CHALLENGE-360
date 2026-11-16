@@ -36,7 +36,7 @@ export function LoginPage() {
               {errorMessage}
             </p>
           )}
-          <Button type="submit" size="lg" block disabled={isSubmitting}>
+          <Button icon="log-in" type="submit" size="lg" block disabled={isSubmitting}>
             {isSubmitting ? 'Ingresando...' : 'Iniciar sesion'}
           </Button>
         </form>

@@ -1,7 +1,7 @@
 import { useState, type FormEvent } from 'react';
 import { useNavigate } from '@tanstack/react-router';
 import { ApiError } from '@core';
-import { useCart } from '@store';
+import { setSelection, useCart } from '@store';
 import { useConfirmShipment } from './client.mutations';
 
 const PAYMENT_SIMULATION_MS = 1400;
@@ -48,11 +48,8 @@ export function useCheckoutPaymentPage(idInvoice: number) {
         {
           onSuccess: () => {
             cart.clear();
-            void navigate({
-              to: '/orders/$idInvoice',
-              params: { idInvoice: String(idInvoice) },
-              search: { success: true },
-            });
+            setSelection({ idInvoice, idCheckoutInvoice: null });
+            void navigate({ to: '/orders/detail', search: { success: true } });
           },
           onError: (error) => {
             setErrorMessage(error instanceof ApiError ? error.message : 'No se pudo confirmar el pedido.');

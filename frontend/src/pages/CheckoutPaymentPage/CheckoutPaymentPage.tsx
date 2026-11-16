@@ -80,7 +80,7 @@ export function CheckoutPaymentPage({ idInvoice }: CheckoutPaymentPageProps) {
               {errorMessage}
             </p>
           )}
-          <Button type="submit" size="lg" block disabled={isBusy}>
+          <Button icon="credit-card" type="submit" size="lg" block disabled={isBusy}>
             {isProcessingPayment ? 'Procesando pago...' : isConfirming ? 'Confirmando pedido...' : 'Pagar'}
           </Button>
         </form>

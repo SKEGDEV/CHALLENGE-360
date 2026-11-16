@@ -1,20 +1,20 @@
 import { createFileRoute } from '@tanstack/react-router';
 import { CheckoutPaymentPage } from '@pages';
-import { requireAuth } from './-guards';
+import { useSelection } from '@store';
+import { requireAuth, requireSelection } from './-guards';
 
-interface CheckoutPaymentSearch {
-  idInvoice: number;
-}
+const requireInvoice = requireSelection((s) => s.idCheckoutInvoice, '/checkout');
 
 export const Route = createFileRoute('/_storefront/checkout/payment')({
-  validateSearch: (search: Record<string, unknown>): CheckoutPaymentSearch => ({
-    idInvoice: Number(search.idInvoice),
-  }),
-  beforeLoad: requireAuth,
+  beforeLoad: () => {
+    requireAuth();
+    requireInvoice();
+  },
   component: CheckoutPaymentRouteComponent,
 });
 
 function CheckoutPaymentRouteComponent() {
-  const { idInvoice } = Route.useSearch();
-  return <CheckoutPaymentPage idInvoice={idInvoice} />;
+  const { idCheckoutInvoice } = useSelection();
+  if (idCheckoutInvoice === null) return null;
+  return <CheckoutPaymentPage idInvoice={idCheckoutInvoice} />;
 }

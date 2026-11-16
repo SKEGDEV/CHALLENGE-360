@@ -71,7 +71,7 @@ export function CheckoutPage() {
               {errorMessage}
             </p>
           )}
-          <Button type="submit" size="lg" block disabled={isSubmitting}>
+          <Button icon="arrow-right" type="submit" size="lg" block disabled={isSubmitting}>
             {isSubmitting ? 'Creando pedido...' : 'Continuar al pago'}
           </Button>
         </form>

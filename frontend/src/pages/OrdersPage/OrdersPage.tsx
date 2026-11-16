@@ -1,3 +1,4 @@
+import { setSelection } from '@store';
 import { Link } from '@tanstack/react-router';
 import { formatMoney } from '@core';
 import { Badge, Container, EmptyState, ErrorState, Spinner } from '@components';
@@ -38,8 +39,8 @@ export function OrdersPage() {
           {invoices.map((invoice) => (
             <Link
               key={invoice.idInvoice}
-              to="/orders/$idInvoice"
-              params={{ idInvoice: String(invoice.idInvoice) }}
+              to="/orders/detail"
+              onClick={() => setSelection({ idInvoice: invoice.idInvoice })}
               className={styles.row}
             >
               <div>

@@ -4,7 +4,7 @@ import { useNavigate } from '@tanstack/react-router';
 import { formatMoney, isValidHexColor } from '@core';
 import { Button, Chip, Container, ErrorState, ProductGallery, Spinner, Stepper, useToast } from '@components';
 import { useProductDetailPage } from '@hooks';
-import { useCart } from '@store';
+import { setSelection, useCart } from '@store';
 import styles from './ProductDetailPage.module.scss';
 
 interface ProductDetailPageProps {
@@ -109,13 +109,11 @@ export function ProductDetailPage({ idProduct }: ProductDetailPageProps) {
           className={styles.media}
           photos={photos}
           alt={product.productName}
-          onImageClick={(index) =>
-            activeVariant &&
-            void navigate({
-              to: '/product/$idProduct/image/$idVariant/$index',
-              params: { idProduct: String(idProduct), idVariant: String(activeVariant.idVariant), index: String(index) },
-            })
-          }
+          onImageClick={(index) => {
+            if (!activeVariant) return;
+            setSelection({ idProduct, image: { idVariant: activeVariant.idVariant, index } });
+            void navigate({ to: '/product/image' });
+          }}
         />
         <div className={styles.info}>
           <span className={styles.category}>{product.productTypeName}</span>
@@ -172,7 +170,7 @@ export function ProductDetailPage({ idProduct }: ProductDetailPageProps) {
 
           <div className={styles.buyRow}>
             <Stepper value={quantity} onChange={setQuantity} min={1} max={Math.max(1, available)} disabled={!canAdd} />
-            <Button size="lg" className={styles.addBtn} disabled={!canAdd} onClick={onAddToBag}>
+            <Button icon="shopping-bag" size="lg" className={styles.addBtn} disabled={!canAdd} onClick={onAddToBag}>
               Agregar a la bolsa
             </Button>
           </div>

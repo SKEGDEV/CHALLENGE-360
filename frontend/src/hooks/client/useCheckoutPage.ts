@@ -2,7 +2,7 @@ import { useState, type FormEvent } from 'react';
 import { useNavigate } from '@tanstack/react-router';
 import { ApiError } from '@core';
 import { useCatalogQuery } from '@hooks';
-import { useCart } from '@store';
+import { setSelection, useCart } from '@store';
 import { useCreatePreOrder } from './client.mutations';
 
 export function useCheckoutPage() {
@@ -40,7 +40,8 @@ export function useCheckoutPage() {
       },
       {
         onSuccess: ({ idInvoice }) => {
-          void navigate({ to: '/checkout/payment', search: { idInvoice } });
+          setSelection({ idCheckoutInvoice: idInvoice });
+          void navigate({ to: '/checkout/payment' });
         },
         onError: (error) => {
           setErrorMessage(error instanceof ApiError ? error.message : 'No se pudo crear la pre orden.');

@@ -1,7 +1,9 @@
-import { Link } from '@tanstack/react-router';
+import { useState } from 'react';
+import { setSelection } from '@store';
+import { Link, useNavigate } from '@tanstack/react-router';
 import { formatMoney } from '@core';
 import type { Product } from '@services';
-import { EmptyState, ErrorState, IconButton, Input, Pagination, ProductImage, Spinner, Table } from '@components';
+import { ConfirmDialog, Button, EmptyState, ErrorState, IconButton, Input, Pagination, ProductImage, Spinner, Table } from '@components';
 import { useAdminProductsPage } from '@hooks';
 import styles from './AdminProductsPage.module.scss';
 
@@ -18,6 +20,7 @@ function totalStock(product: Product): number {
 }
 
 export function AdminProductsPage() {
+  const navigate = useNavigate();
   const {
     products,
     pageNumber,
@@ -32,13 +35,26 @@ export function AdminProductsPage() {
     deleteProduct,
   } = useAdminProductsPage();
 
+  const [pendingAction, setPendingAction] = useState<{ message: string; onConfirm: () => void } | null>(null);
+
   return (
     <div className={styles.page}>
+      <ConfirmDialog
+        open={pendingAction !== null}
+        message={pendingAction?.message ?? ''}
+        confirmIcon="trash"
+        confirmLabel="Sí, eliminar"
+        onCancel={() => setPendingAction(null)}
+        onConfirm={() => {
+          pendingAction?.onConfirm();
+          setPendingAction(null);
+        }}
+      />
       <div className={styles.header}>
         <h1>Productos</h1>
-        <Link to="/admin/products/new" className={styles.newLink}>
+        <Button icon="plus" onClick={() => void navigate({ to: '/admin/products/new' })}>
           Nuevo producto
-        </Link>
+        </Button>
       </div>
 
       <div className={styles.toolbar}>
@@ -81,7 +97,7 @@ export function AdminProductsPage() {
                 header: '',
                 render: (row) => (
                   <div className={styles.actions}>
-                    <Link to="/admin/products/$idProduct" params={{ idProduct: String(row.idProduct) }}>
+                    <Link to="/admin/products/edit" onClick={() => setSelection({ idAdminProduct: row.idProduct })}>
                       <IconButton icon="pencil" label="Editar producto" size="sm" />
                     </Link>
                     <IconButton
@@ -90,11 +106,7 @@ export function AdminProductsPage() {
                       size="sm"
                       variant="danger"
                       disabled={deleteProduct.isPending}
-                      onClick={() => {
-                        if (confirm(`Eliminar "${row.productName}"? Esta accion no se puede deshacer.`)) {
-                          deleteProduct.mutate(row.idProduct);
-                        }
-                      }}
+                      onClick={() => setPendingAction({ message: `Se eliminará el producto "${row.productName}".`, onConfirm: () => deleteProduct.mutate(row.idProduct) })}
                     />
                   </div>
                 ),

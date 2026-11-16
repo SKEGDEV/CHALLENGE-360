@@ -67,10 +67,10 @@ export function OperatorInventoryPage() {
                     value={quantityDrafts[row.sku] ?? ''}
                     onChange={(event) => setQuantityDraft(row.sku, event.target.value)}
                   />
-                  <Button type="button" variant="secondary" size="sm" disabled={isAdjusting} onClick={() => adjust(row.sku, 'sumar')}>
+                  <Button icon="plus" type="button" variant="secondary" size="sm" disabled={isAdjusting} onClick={() => adjust(row.sku, 'sumar')}>
                     Sumar
                   </Button>
-                  <Button type="button" variant="secondary" size="sm" disabled={isAdjusting} onClick={() => adjust(row.sku, 'restar')}>
+                  <Button icon="minus" type="button" variant="secondary" size="sm" disabled={isAdjusting} onClick={() => adjust(row.sku, 'restar')}>
                     Restar
                   </Button>
                 </div>

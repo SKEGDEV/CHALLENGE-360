@@ -14,8 +14,71 @@
   &:hover {
     transform: scale(1.015);
     box-shadow: var(--shadow-lg);
-    text-decoration: none;
   }
+}
+
+.media {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  overflow: hidden;
+  background: linear-gradient(180deg, var(--color-tile), var(--color-tile-secondary));
+}
+
+.img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  animation: cardFade 0.35s ease;
+}
+
+@keyframes cardFade {
+  from {
+    opacity: 0;
+    transform: scale(1.04);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.placeholder {
+  color: var(--color-text-tertiary);
+}
+
+.titleLink {
+  color: var(--color-text);
+}
+
+.swatches {
+  display: flex;
+  gap: var(--space-2);
+  margin: var(--space-2) 0 var(--space-1);
+}
+
+.swatch {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  border: 1px solid var(--color-separator-strong);
+  padding: 0;
+  box-shadow: 0 0 0 2px var(--color-card);
+  transition:
+    transform 0.15s,
+    box-shadow 0.15s;
+
+  &:hover {
+    transform: scale(1.15);
+  }
+}
+
+.swatchActive {
+  box-shadow:
+    0 0 0 2px var(--color-card),
+    0 0 0 4px var(--color-primary);
 }
 
 .body {
@@ -38,6 +101,7 @@
 }
 
 .price {
+  animation: cardFade 0.3s ease;
   font-size: 15px;
   margin-top: var(--space-1);
 }

@@ -76,6 +76,7 @@ export function OperatorShipmentsPage() {
                         />
                       )}
                       <Button
+                        icon="truck"
                         type="button"
                         variant="secondary"
                         size="sm"

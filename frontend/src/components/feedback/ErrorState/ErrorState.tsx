@@ -11,7 +11,7 @@ export function ErrorState({ title = 'Algo salio mal', description, onRetry, ret
       <p>{description}</p>
       {onRetry && (
         <div className={styles.action}>
-          <Button variant="secondary" onClick={onRetry}>
+          <Button icon="rotate-ccw" variant="secondary" onClick={onRetry}>
             {retryLabel}
           </Button>
         </div>

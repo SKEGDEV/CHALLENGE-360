@@ -89,7 +89,7 @@ export function CuponForm({ editingId, detail, cuponTypes, productTypes, onSaved
         </div>
       )}
       {formError && <p className={styles.formError}>{formError}</p>}
-      <Button type="button" block disabled={isSaving} onClick={submit}>
+      <Button icon="save" type="button" block disabled={isSaving} onClick={submit}>
         {isSaving ? 'Guardando...' : 'Guardar cupón'}
       </Button>
     </div>

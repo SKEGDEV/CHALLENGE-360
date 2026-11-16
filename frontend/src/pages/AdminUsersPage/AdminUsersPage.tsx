@@ -1,4 +1,5 @@
-import { Badge, Button, Drawer, EmptyState, ErrorState, IconButton, Input, Pagination, Select, Spinner, Table } from '@components';
+import { useState } from 'react';
+import { ConfirmDialog, Badge, Button, Drawer, EmptyState, ErrorState, IconButton, Input, Pagination, Select, Spinner, Table } from '@components';
 import { USER_STATUS_OPTIONS, useAdminUsersPage, userStatusLabel } from '@hooks';
 import styles from './AdminUsersPage.module.scss';
 
@@ -31,11 +32,24 @@ export function AdminUsersPage() {
     isSaving,
   } = useAdminUsersPage();
 
+  const [pendingAction, setPendingAction] = useState<{ message: string; onConfirm: () => void } | null>(null);
+
   return (
     <div className={styles.page}>
+      <ConfirmDialog
+        open={pendingAction !== null}
+        message={pendingAction?.message ?? ''}
+        confirmIcon="ban"
+        confirmLabel="Sí, inactivar"
+        onCancel={() => setPendingAction(null)}
+        onConfirm={() => {
+          pendingAction?.onConfirm();
+          setPendingAction(null);
+        }}
+      />
       <div className={styles.header}>
         <h1>Usuarios</h1>
-        <Button type="button" onClick={openCreate}>
+        <Button icon="user-plus" type="button" onClick={openCreate}>
           Nuevo usuario
         </Button>
       </div>
@@ -94,11 +108,7 @@ export function AdminUsersPage() {
                     size="sm"
                     variant="danger"
                     disabled={row.idUserStatus !== ACTIVE_STATUS || inactivateUser.isPending}
-                    onClick={() => {
-                      if (confirm(`Inactivar a "${row.userFirstName} ${row.userLastName}"?`)) {
-                        inactivateUser.mutate(row.idUser);
-                      }
-                    }}
+                    onClick={() => setPendingAction({ message: `Se inactivará la cuenta de "${row.userFirstName} ${row.userLastName}".`, onConfirm: () => inactivateUser.mutate(row.idUser) })}
                   />
                 ),
               },
@@ -114,7 +124,7 @@ export function AdminUsersPage() {
         onClose={closeForm}
         title="Nuevo usuario"
         footer={
-          <Button type="button" block disabled={isSaving} onClick={submit}>
+          <Button icon="user-plus" type="button" block disabled={isSaving} onClick={submit}>
             {isSaving ? 'Creando...' : 'Crear usuario'}
           </Button>
         }
